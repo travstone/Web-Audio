@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>API Test</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="waveform.css">
+	</head>
+	<body>
+
+			<div class="plot-container2">
+				<svg id="ac" class="waveform-container" preserveAspectRatio="none" viewbox="0 0 800 256">
+					<defs>
+						<filter id="glow">
+						    <feGaussianBlur stdDeviation="10" result="coloredBlur"/>
+						    <feMerge>
+						        <feMergeNode in="coloredBlur"/>
+						        <feMergeNode in="SourceGraphic"/>
+						    </feMerge>
+						</filter>
+					</defs>
+					<path stroke-width="1.5" fill="none" stroke="#000000" id="waveform-path2" d="" filter="url(#glow)"></path>
+				</svg>
+			</div>
+
+			<div class="graph-container">
+				<svg id="gc" class="waveform-container" preserveAspectRatio="none" viewbox="0 0 800 256">
+
+				</svg>
+			</div>
+
+		<script type="text/javascript" src="libs/jquery/jquery-2.2.2.min.js"></script>
+		<script type="text/javascript" src="directApi.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,53 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+.audio-container {
+	width: 100%;
+	max-width: 800px;
+}
+.plot-container {
+    height: 120px;
+    max-height: 120px;
+    /*max-width: 100%;*/
+    border: 1px solid #a28282;
+    background-color: #fffdef;
+    padding: 6px 0;
+    border-radius: 3px;
+}
+.waveform-container {
+	height: 100%;
+	width: 100%;
+}
+audio {
+	width: 100%;
+}
+#waveform-path {
+    stroke: rgb(88, 79, 16);
+}
+
+
+
+.plot-container2 {
+    border: 1px solid #a28282;
+    padding: 6px 0;
+    border-radius: 3px;
+        height: 100%;
+    max-height: 300px;
+    max-width: 100%;
+    background-color: #02100e;
+}
+#waveform-path2 {
+    stroke: rgb(158, 255, 239);
+}
+
+
+.graph-container {
+    border: 1px solid #a28282;
+    padding: 6px 0;
+    border-radius: 3px;
+        height: 100%;
+    max-height: 128px;
+    max-width: 100%;
+    background-color: #02100e;
+}

@@ -1,0 +1,307 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>API Test</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style type="text/css">
+			body {
+				margin: 0;
+				padding: 0;
+			}
+			#plainWave, #waveformB {
+				border: 1px solid #333;
+				/*position: absolute;*/
+				height: 360px;
+				/*width: 100%;*/
+			}
+			#waveformB {
+				top: 380px;
+			}
+
+		</style>
+	</head>
+	<body>
+		<div id="plots">
+
+			<svg id="plainWave" preserveAspectRatio="none" viewbox="0 -1 6000 2">
+				<g id="scalingElement">
+			    	<path fill="none" stroke="#000000" id="waveformA" d=""/>
+			    	<path fill="none" stroke="#FF0000" id="zeroLine" d=""></path>
+				</g>
+			</svg>
+
+
+		<script type="text/javascript" src="libs/jquery/jquery-2.2.2.min.js"></script>
+		<script type="text/javascript" src="raphael.js"></script>
+		<script type="text/javascript">
+			$('document').ready(function() {
+				//console.log('ready... ');
+				var $a = $('audio'),
+					context,
+					buffer,
+					plotSize = 6000; //$('#plots').width();
+
+				function createAudioContext() {
+					if (!window.audioContextInstance) {
+						window.AudioContext = window.AudioContext || window.webkitAudioContext;
+						if (window.AudioContext) {
+							window.audioContextInstance = new AudioContext();
+						} else {
+							alert('Web Audio API is not supported in this browser');
+						}
+					}
+					return window.audioContextInstance;
+				}
+
+				function getPeaks(plotSize, buffer) {
+
+					var bufferLength = buffer.length,
+						maxVal = +0,
+						minVal = -0.1,
+						batchSize = Math.ceil( bufferLength / plotSize ),
+						inc = 0,
+						count = 0,
+						peaks = [],
+						curVal,
+						sign,
+						isPos,
+						posCount = 0,
+						negCount = 0,
+						setValue;
+
+					//console.log(buffer, bufferLength, batchSize);
+
+					for (inc; bufferLength >= inc; inc++) {
+						//console.log(typeof buffer[inc]);
+						curVal = buffer[inc];
+						//console.log(typeof curVal, curVal;
+
+						sign = Math.sign(curVal);
+
+						if(sign === 1) {
+							isPos = true;
+							posCount++;
+							//console.log('Positive: ', curVal, maxVal);
+							if(curVal > maxVal) {
+								maxVal = curVal;
+								//console.log('Setting max: ', maxVal);
+							}
+						}
+						else if(sign === -1) {
+							isPos = false;
+							negCount++;
+							//console.log('Negative: ', curVal);
+							if(minVal < curVal) {
+								minVal = curVal;
+								//console.log('Setting min: ', minVal);
+							}
+						}
+
+						//console.log(inc % batchSize);
+
+						if(inc % batchSize === 0 ) {
+							//console.log('batching: ', inc, count);
+							//peaks[count] = {};
+							//console.log('Max: ', maxVal, ' Min: ', minVal);
+							//console.log('Pos ', posCount, ' Neg ', negCount);
+							if(posCount >= negCount) {
+								//console.log('Store Positive');
+								setValue = maxVal;
+							} else {
+								//console.log('Store Negative');
+								setValue = minVal;
+							}
+							//console.log('Setting: ', setValue);
+							//peaks[count] = setValue;
+
+
+							peaks[count] = buffer[inc];
+							maxVal = 0;
+							minVal = -0.1;
+							posCount = 0;
+							negCount = 0;
+							count++;
+						}
+
+					};
+
+					return peaks;
+				}
+
+
+				function drawWaveformSVG(peaks,smooth) {
+					
+					var peaksLength = peaks.length,
+						displayHeight = 360,
+						zeroLine = displayHeight / 2,
+						vScale = zeroLine,
+						inc = 0,
+						curVal;
+						//console.log(peaks, peaksLength);
+					var sx = 0, sy = zeroLine, tx, ty, plotString = '';
+
+					for (inc; inc < peaksLength; inc++) {
+						curVal = peaks[inc];
+						sx = inc;
+
+						sy = parseFloat(zeroLine - (curVal * vScale));
+
+						if(smooth) {
+							if(inc === 0) {
+								plotString += 'M' + sx + ', ' + zeroLine;
+							}
+							plotString += '  L' + sx + ', ' + sy;
+						} else {
+							plotString += 'M' + sx + ', ' + zeroLine;
+							plotString += '  L' + sx + ', ' + sy;
+						}
+
+					};
+
+					var width = $('body').width(),
+						xScale = 1;
+					//console.log(width);
+					if (width < peaksLength) {
+						xScale = (peaksLength / width);// * 0.24;// * 0.54;
+					}
+					else if(width > peaksLength) {
+						xScale = (width / peaksLength);
+					}
+					xScale = 1;
+					console.log(xScale);
+
+					var strokeWidth = 0.5; // smooth ? 0.75 : 5;
+
+					var path = document.getElementById('waveformA');
+					path.setAttribute('d', plotString);
+
+					//$('#waveformA').attr('d',plotString);
+					$('#waveformA').attr('stroke-width', strokeWidth);
+					//$('#plainWave').attr('height', displayHeight);
+					//$('#plainWave').attr('viewbox', '0 -1 6000 2');// + displayHeight);
+					//$('#scalingElement').attr('transform', 'scale(' + xScale + ', 1)');
+
+					$('#zeroLine').attr('d','M0, ' + zeroLine + ' L' + peaksLength + ', ' + zeroLine);
+				}
+
+
+				function drawWaveformRaphael(peaks, smooth) {
+					//console.log(peaks);
+					var peaksLength = peaks.length,
+						displayHeight = 360,
+						zeroLine = displayHeight / 2,
+						vScale = zeroLine,
+						inc = 0,
+						curVal,
+						width = $('body').width(),
+						xScale = 1;
+
+					//console.log(width, peaksLength);
+					if (width < peaksLength) {
+						xScale = (peaksLength / width);// - 0.5;// * 0.22899;// - 1;
+					}
+					else if(width > peaksLength) {
+						xScale = (width / peaksLength);
+					}
+					xScale = 0.42;
+					console.log(xScale);
+
+					var paper = Raphael(0, displayHeight + 10, '100%', displayHeight);
+					paper.setViewBox(0, -1, 6000, 2 );
+
+					paper.canvas.setAttribute('preserveAspectRatio', 'none');
+					paper.canvas.setAttribute('id', 'waveformB');
+					//paper.canvas.setAttribute('style', 'overflow: hidden; position: relative; left: 0; top: 10px;');
+					paper.canvas.setAttribute('style', '');
+
+					var sx = 0, sy = zeroLine, tx, ty, plotString = '';
+
+					for (inc; inc < peaksLength; inc++) {
+						curVal = peaks[inc];
+						sx = inc;
+
+						sy = parseFloat(zeroLine - (curVal * vScale));
+
+						if(smooth) {
+							if(inc === 0) {
+								plotString += 'M' + sx + ', ' + zeroLine;
+							}
+							plotString += '  L' + sx + ', ' + sy;
+						} else {
+							plotString += 'M' + sx + ', ' + zeroLine;
+							plotString += '  L' + sx + ', ' + sy;
+						}
+
+					};
+
+					var newPath = paper.path(plotString),
+						$cont = $('#waveformB');
+
+					$cont.find('desc, defs').remove();
+
+					newPath.node.id = 'pathB';
+
+					var waveFormGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g'),
+						myContainer = document.getElementById('waveformB'),
+						path = document.getElementById('pathB'),
+						zeroLinePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+
+					//console.log(myContainer, path);
+
+					var strokeWidth = 0.5; // smooth ? 0.75 : 5;
+					path.setAttribute('stroke-width', strokeWidth);
+
+					waveFormGroup.setAttribute('id', 'rScalingElement');
+					//waveFormGroup.setAttribute('transform', 'scale(' + xScale + ', 1)');
+					waveFormGroup.appendChild(path);
+
+					zeroLinePath.setAttribute('fill','none');
+					zeroLinePath.setAttribute('stroke','#FF0000');
+					zeroLinePath.setAttribute('d','M0, ' + zeroLine + ' L' + peaksLength + ', ' + zeroLine);
+
+					waveFormGroup.appendChild(zeroLinePath);
+
+					myContainer.appendChild(waveFormGroup);
+
+				}
+
+
+				function waveform(svgId, buffer) {
+					//console.log(svgId, buffer);
+					var myPeaks = getPeaks(plotSize, buffer.getChannelData(0));
+					//console.log(myPeaks);
+					//console.log(buffer.getChannelData(1));
+					drawWaveformSVG(myPeaks, false);
+					//drawWaveformRaphael(myPeaks, false);
+					//console.log(context);
+				}
+
+
+				context = createAudioContext();
+
+				var xhr = new XMLHttpRequest();
+				xhr.open('GET', 'uploads/Blankit_Unknown_Track04.mp3', true);
+				xhr.responseType = 'arraybuffer';
+				 
+				xhr.onload = function(e) {
+					// response is unsigned 8 bit integer
+					// var responseArray = new Uint8Array(this.response);
+					// console.log(responseArray);
+					//console.log('working...');
+					context.decodeAudioData(this.response,function(innerdata) {
+						waveform('#waveform', innerdata);
+					});
+				};
+				 
+				xhr.send();
+
+
+			});
+
+
+		</script>
+
+		</div>
+	</body>
+</html>
