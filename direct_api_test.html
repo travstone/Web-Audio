@@ -9,7 +9,7 @@
 	<body>
 
 			<div class="plot-container2">
-				<svg id="ac" class="waveform-container" preserveAspectRatio="none" viewbox="0 0 800 256">
+				<svg id="ac" class="waveform-container" preserveAspectRatio="none" viewbox="0 0 1024 256">
 					<defs>
 						<filter id="glow">
 						    <feGaussianBlur stdDeviation="10" result="coloredBlur"/>
@@ -19,9 +19,13 @@
 						    </feMerge>
 						</filter>
 					</defs>
-					<path stroke-width="1.5" fill="none" stroke="#000000" id="waveform-path2" d="" filter="url(#glow)"></path>
+					<path stroke-width="0.5" fill="" stroke="#FFFFFF" id="zeroLine" d="M0, 128 L1024, 128"></path>
+					<path stroke-width="1" fill="none" stroke="#000000" id="waveform-path2" d="" filter="url(#glow)"></path>
 				</svg>
 			</div>
+
+			<button id="btn-play" class="pause" disabled>Play/Pause</button>
+			<input id="curTime" />
 
 			<div class="graph-container">
 				<svg id="gc" class="waveform-container" preserveAspectRatio="none" viewbox="0 0 800 256">
