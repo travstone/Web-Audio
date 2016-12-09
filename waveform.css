@@ -1,62 +1,81 @@
 body {
 	margin: 0;
 	padding: 0;
+    font-family: sans-serif;
 }
-.audio-container {
-	/*width: 100%;
-	max-width: 800px;*/
+.audio-visualizer {
+    margin: 12px;
+    padding: 12px;
+    width: 100%;
+    max-width: 800px;
+    border: 1px solid;
 }
-.plot-container {
-/*    height: 120px;
-    max-height: 120px;*/
-    /*max-width: 100%;*/
-    border: 1px solid #a28282;
-    background-color: #fffdef;
-    padding: 6px 0;
-    border-radius: 3px;
+.audio-controls {
+    border: 1px solid;
+    margin-bottom: 12px;
+    /*padding-bottom: 12px;*/
+    height: 40px;
 }
-.waveform-container {
-/*	height: 100%;
-	width: 100%;*/
+.audio-controls label {
+    vertical-align: middle;
+    float: left;
+    margin-top: 6px;
+    margin-left: 6px;
 }
+.audio-controls input {
+    vertical-align: middle;
+}
+
 audio {
 /*	width: 100%;*/
 }
-#waveform-path {
-    stroke: rgb(88, 79, 16);
+
+#loading-indicator {
+    vertical-align: top;
+    font-size: 12px;
+    position: relative;
+    padding: 0;
+    top: 6px;
+    display: inline;
+    color: red;
+    font-weight: 700;
 }
 
-
-
-.plot-container2 {
-    /*border: 1px solid #a28282;*/
-/*    padding: 6px 0;
-    border-radius: 3px;*/
-    /*width: 1024px;*/
-/*        height: 100%;
-    max-height: 300px;
-    max-width: 100%;*/
+.wave-container {
+    border: 1px solid;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+}
+.waveform-container {
     background-color: #02100e;
 }
-#zero-line {
-    stroke: rgb(255, 96, 96);
+.waveform-controls {
+    padding: 4px;
 }
-#waveform-path2 {
-    stroke: rgb(158, 255, 239);
+.waveform-controls label {
+    vertical-align: middle;
+    margin-right: 24px;
+    font-size: 12px;
 }
-/*
+.waveform-controls input {
+    vertical-align: middle;
+}
+
 
 .graph-container {
-    border: 1px solid #a28282;
-    padding: 6px 0;
-    border-radius: 3px;
-        height: 100%;
-    max-height: 128px;
-    max-width: 100%;
     background-color: #02100e;
-}*/
-
-
-#glowTest {
-    stroke: red;
+    width: 100%;
+    max-width: 300px;
+    padding: 2px;
 }
+.graph {
+    max-height: 100%
+}
+.gfm {
+    color: #ccc;
+    font-size: 8px;
+}
+.gfm-hi {
+    float: right;
+}
+
