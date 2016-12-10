@@ -82,12 +82,14 @@ var WaveformDisplay = (function() {
 
 			$('#track-player').on('loadstart', function(e) {
 				//console.log('loadstart',e);
+				$('#track-player').hide();
 				$('#loading-indicator').show();
 			});
 
 			$('#track-player').on('canplay', function(e) {
 				//console.log('canplay',e);
 				$('#loading-indicator').hide();
+				$('#track-player').show();
 			});
 
 			$('#stroke').on('change', function(e) {

@@ -7,7 +7,7 @@ body {
     margin: 12px;
     padding: 12px;
     width: 100%;
-    max-width: 800px;
+    max-width: 600px;
     border: 1px solid;
 }
 .audio-controls {
@@ -15,6 +15,7 @@ body {
     margin-bottom: 12px;
     /*padding-bottom: 12px;*/
     height: 40px;
+    position: relative;
 }
 .audio-controls label {
     vertical-align: middle;
@@ -25,17 +26,21 @@ body {
 .audio-controls input {
     vertical-align: middle;
 }
+.audio-controls select {
+    max-width: 286px;
+}
 
 audio {
-/*	width: 100%;*/
+	width: 250px;
 }
 
 #loading-indicator {
     vertical-align: top;
     font-size: 12px;
-    position: relative;
+    position: absolute;
     padding: 0;
-    top: 6px;
+    top: 9px;
+    right: 193px;
     display: inline;
     color: red;
     font-weight: 700;
@@ -64,8 +69,8 @@ audio {
 
 .graph-container {
     background-color: #02100e;
-    width: 100%;
-    max-width: 300px;
+    /*width: 100%;*/
+    /*max-width: 300px;*/
     padding: 2px;
 }
 .graph {
