@@ -8,7 +8,7 @@ $('document').ready(function() {
 		plotSize = 12000,
 		$player = $('#player'),
 		xhr = new XMLHttpRequest(),
-		file = '../jamazon/uploads/steve_miller_jungle_mastered.mp3';
+		file = 'audio/steve_miller_jungle_mastered.mp3';
 
 
 	// var ac = document.getElementById('ac1');

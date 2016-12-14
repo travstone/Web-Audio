@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Audio Peaks</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script data-main="js/app-peaks" src="js/libs/require/require.js"></script>
+	</head>
+	<body>
+		<div>
+			<h1>Audio Peaks</h1>
+			<p><a href="index.html">Home</a></p>
+			<div id="ac1" class="audio-container">
+				<div class="plot-container">
+					<svg class="waveform-container" preserveAspectRatio="none" viewbox="0 -1 6000 2" style="height: 200px; width: 100%">
+						<g id="scalingElement">
+					    	<path fill="none" stroke="#000000" id="waveform-path" d=""/></path>
+					    	<path fill="none" stroke="rgb(0,0,255)" id="zeroLine" d="M0, 0 L6000, 0" stroke-width="0.025"></path>
+					    	<path fill="none" stroke="rgba(255,0,0,0.6)" id="playHead" d="M0, -1 L0, 1" stroke-width="25"></path>
+						</g>
+					</svg>
+				</div>
+				<audio id="player" controls></audio>
+			</div>
+
+		</div>
+	</body>
+</html>
