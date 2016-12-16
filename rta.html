@@ -1,0 +1,51 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Audio Peaks</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script data-main="js/app" src="js/libs/require/require.js"></script>
+		<link rel="stylesheet" type="text/css" href="mods/rta/rta.css">
+
+	</head>
+	<body>
+
+		<div>
+			<h1>Audio Real-Time Analyzer</h1>
+			<p><a href="index.html">Home</a></p>
+
+
+
+
+			<div class="audio-visualizer">
+
+				<div class="audio-controls">
+					<label>Track: </label>
+					<div id="trackSelect"></div>
+					
+					<audio controls id="track-player">
+					</audio>
+
+					<span id="loading-indicator">Loading...</span>
+				</div>
+
+				<div class="graph-container">
+					<svg id="gc" class="graph" preserveAspectRatio="none" viewbox="0 0 1024 256"></svg>
+					<span class="gfm gfm-low">20Hz</span>
+					<span class="gfm gfm-hi">20kHz</span>
+				</div>
+
+			</div>
+
+
+
+
+		</div>
+
+		<script type="text/javascript">
+			requirejs(['mods/rta/main-rta.js']);
+		</script>
+
+	</body>
+
+</html>
