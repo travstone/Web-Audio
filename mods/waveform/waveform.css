@@ -11,7 +11,7 @@ body {
     max-width: 800px;
     border: 1px solid;
 }
-#trackSelect {
+#track-select {
 	float: left;
 	margin-top: 6px;
 }

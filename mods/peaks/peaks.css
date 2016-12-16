@@ -1,7 +1,9 @@
 body {
 	font-family: sans-serif;
 }
-
+#ac1 {
+	margin-bottom: 12px;
+}
 .plot-container {
 	position: relative;
 	background-color: #01211f;
@@ -28,7 +30,7 @@ body {
 	color: rgba(255,255,255,0.5);
 }
 .waveform-container {
-	height: 400px;
+	height: 200px;
 	width: 100%;
 }
 .wfPath {

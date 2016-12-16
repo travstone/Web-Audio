@@ -55,14 +55,14 @@ define(['jquery'], function( $ ) {
 		},
 
 		init: function($sel, $player, loadedCb) {
-			//console.log('Init trackSelect');
+			console.log('Init trackSelect');
 			$.get('mods/trackSelect/trackSelect_tmpl.html').done(function(data) {
 				trackSelect.$player = $player;
 				trackSelect.$markup = $(data).clone();
 				trackSelect.setTrackList();
 				trackSelect.$container = $sel;
 				trackSelect.loadedCb = loadedCb;
-				//console.log('trackSelect template retrieved', data, $('#trackSelect'));
+				console.log('trackSelect template retrieved', data, trackSelect.$markup, trackSelect.$container);
 				trackSelect.$container.html( trackSelect.$markup );
 				trackSelect.setHandlers();
 			});
@@ -73,7 +73,7 @@ define(['jquery'], function( $ ) {
 				var $targ = $(e.target),
 					//d = $('[value="'+val+'"]').data(),
 					type = e.target.selectedOptions[0].dataset.ftype; //$targ.data().ftype;
-				//console.log('Clicked...', e, e.target.selectedOptions[0].dataset, $targ);
+				console.log('Clicked...', e, e.target.selectedOptions[0].dataset, $targ);
 				trackSelect.$player[0].pause();
 				trackSelect.$player.html('');
 				trackSelect.$player.html('<source src="audio/'+$targ.val()+'" type="'+type+'"></source>');

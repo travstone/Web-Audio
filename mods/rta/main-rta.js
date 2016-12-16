@@ -2,5 +2,5 @@
 requirejs(['jquery', 'rta', 'trackSelect'], function( $, rta, trackSelect ) {
 	"use strict";
     rta.init();
-    trackSelect.init($('#trackSelect'), rta.$player, rta.reset);
+    trackSelect.init($('#track-select'), rta.$player, rta.reset);
 });

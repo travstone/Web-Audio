@@ -8,12 +8,12 @@ define(function() {
 	if (window.AudioContext) {
 		if(!window.audioContextInstance) {
 			audioContextInstance = new AudioContext();
+			audioContextInstance.source = null;
 			window.audioContextInstance = audioContextInstance;
 		}
 	} else {
 		alert('Web Audio API is not supported in this browser');
 	}
-
 	//console.log(audioContextInstance);
 	return window.audioContextInstance;
 

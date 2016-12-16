@@ -11,7 +11,7 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 		gCont : document.getElementById('gc'),
 
 		context : audioContext, //new (window.AudioContext || window.webkitAudioContext)(),
-		source : null,
+		//source : null,
 		grAnalyser : null,
 		grBufferLength : null,
 		ByteTimeDomainArray : null,
@@ -25,14 +25,18 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 			rta.grAnalyser = rta.context.createAnalyser();
 			rta.grAnalyser.fftSize = 256;//128;// 256;
 			rta.grAnalyser.minDecibels = -95;
-			console.log(audioContext.source);
-			rta.source = rta.context.createMediaElementSource(rta.$player[0]);
+			//console.log(audioContext.source);
+			if (!rta.context.source) {
+				console.log('Define the source!');
+				rta.context.source = rta.context.createMediaElementSource(rta.$player[0]);
+			};
+			//rta.source = rta.context.createMediaElementSource(rta.$player[0]);
 			rta.reset();
 			rta.setListeners();
 			rta.grBufferLength = rta.grAnalyser.frequencyBinCount;
 			//FloatTimeDomainArray = new Float32Array(wfBufferLength);
 			rta.ByteFrequencyArray = new Uint8Array(rta.grBufferLength);
-			rta.source.connect(rta.grAnalyser);
+			rta.context.source.connect(rta.grAnalyser);
 			rta.grAnalyser.connect(rta.context.destination);
 		},
 

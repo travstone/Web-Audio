@@ -11,7 +11,7 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 		waveformPath : document.getElementById('waveform-path'),
 
 		context : audioContext, //new (window.AudioContext || window.webkitAudioContext)(),
-		source : null,
+		//source : null,
 		wfAnalyser : null,
 		grAnalyser : null,
 		wfBufferLength : null,
@@ -26,14 +26,18 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 			waveform.wfAnalyser = waveform.context.createAnalyser();
 			waveform.wfAnalyser.fftSize = 2048;
 			waveform.wfAnalyser.smoothingTimeConstant = 0.9;
-			waveform.source = waveform.context.createMediaElementSource(waveform.$player[0]);
+			if (!waveform.context.source) {
+				console.log('Define the source!');
+				waveform.context.source = waveform.context.createMediaElementSource(waveform.$player[0]);
+			};
+			//waveform.source = waveform.context.createMediaElementSource(waveform.$player[0]);
 			console.log(waveform.context);
 			waveform.reset();
 			waveform.setListeners();
 			waveform.wfBufferLength = waveform.wfAnalyser.frequencyBinCount;
 			waveform.ByteTimeDomainArray = new Uint8Array(waveform.wfBufferLength);
 			//FloatTimeDomainArray = new Float32Array(wfBufferLength);
-			waveform.source.connect(waveform.wfAnalyser);
+			waveform.context.source.connect(waveform.wfAnalyser);
 			waveform.wfAnalyser.connect(waveform.context.destination);
 		},
 

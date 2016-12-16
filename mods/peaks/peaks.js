@@ -14,7 +14,6 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 		plotSize: 12000,
 		peaks: {'left': [], 'right': []},
 		analyser: null,
-		//trackSelect: null,
 
 		getPeaks: function(bufferData) {
 
@@ -176,19 +175,18 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 			// audioContext.createMediaElementSource(this.$player[0]);
 			// console.log(audioContext)
 			//$('#player').load();
-			this.audioFile = $('#player').find('source').attr('src');
+			this.audioFile = $('#track-player').find('source').attr('src');
 			peaks.clearWaveformSVG();
 			peaks.resetNeedle();
 
 			//peaks.resetMarkup();
 			//peaks.setHandlers();
-			//peaks.trackSelect.init($('#trackSelect'), peaks.$player, peaks.initAudio);
 
 			var self = this,
 				bufferData,
 				xhr = new XMLHttpRequest(),
 				file = this.audioFile;
-
+				console.log(file);
 			//self.resetNeedle();
 			xhr.open('GET', file, true);
 			xhr.responseType = 'arraybuffer';
@@ -270,16 +268,12 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 		init: function() {
 			var self = this;
 			this.$container = $('#ac1');
-			this.$player = $('#player');
+			this.$player = $('#track-player');
 			//this.initAudio();
 			//$.get('mods/peaks/peaks_tmpl.html').done(function(data) {
 				//self.graphMarkup = $(data).clone();
 				//self.resetMarkup();
 				self.setHandlers();
-				//self.trackSelect = trackSelect;
-				//self.trackSelect.init($('#trackSelect'), self.$player, self.initAudio);
-				//var $markup = self.trackSelect.$markup.find('#cloneSource').clone();
-				//console.log(self.trackSelect);
 			//});
 			//this.analyser = audioContext.createAnalyser();
 		},

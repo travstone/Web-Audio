@@ -26,6 +26,9 @@ requirejs.config({
 		// underscore: {
 		// 	exports: '_'
 		// }
+		jquery: {
+			exports: '$'
+		}
 	}
 });
 
