@@ -23,7 +23,7 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 
 		init : function() {
 			rta.grAnalyser = rta.context.createAnalyser();
-			rta.grAnalyser.fftSize = 512;//128;// 256;
+			rta.grAnalyser.fftSize = 256;//128;// 256;
 			rta.grAnalyser.minDecibels = -95;
 			console.log(audioContext.source);
 			rta.source = rta.context.createMediaElementSource(rta.$player[0]);
