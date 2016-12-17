@@ -34,7 +34,7 @@ body {
 	width: 100%;
 }
 .wfPath {
-	stroke: rgba(255,255,255,0.9);
+	stroke: rgba(255,255,255,0.4);
 }
 #zeroLine {
 	stroke: rgb(0,0,255);

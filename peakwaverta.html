@@ -79,8 +79,8 @@
 				"use strict";
 				console.log($);
 			    peaks.init();
-			    waveform.init();
-			    rta.init();
+			    waveform.init(true);
+			    rta.init(true);
 			    var tsDelegate = function() {
 			    	peaks.initAudio();
 			    	waveform.reset();

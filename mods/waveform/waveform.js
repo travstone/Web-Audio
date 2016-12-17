@@ -22,23 +22,32 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 		doWfd : false,
 		waveformId : null,
 
-		init : function() {
+		init : function(useEl) {
 			waveform.wfAnalyser = waveform.context.createAnalyser();
 			waveform.wfAnalyser.fftSize = 2048;
 			waveform.wfAnalyser.smoothingTimeConstant = 0.9;
-			if (!waveform.context.source) {
-				console.log('Define the source!');
-				waveform.context.source = waveform.context.createMediaElementSource(waveform.$player[0]);
-			};
-			//waveform.source = waveform.context.createMediaElementSource(waveform.$player[0]);
 			console.log(waveform.context);
 			waveform.reset();
 			waveform.setListeners();
 			waveform.wfBufferLength = waveform.wfAnalyser.frequencyBinCount;
 			waveform.ByteTimeDomainArray = new Uint8Array(waveform.wfBufferLength);
 			//FloatTimeDomainArray = new Float32Array(wfBufferLength);
-			waveform.context.source.connect(waveform.wfAnalyser);
-			waveform.wfAnalyser.connect(waveform.context.destination);
+
+			if (useEl) {
+				if (!waveform.context.source) {
+					console.log('Define the source!');
+					waveform.context.source = waveform.context.createMediaElementSource(waveform.$player[0]);
+				}
+				waveform.context.source.connect(waveform.wfAnalyser);
+				waveform.wfAnalyser.connect(waveform.context.destination);
+			} else {
+				audioContext.osc.connect(waveform.wfAnalyser);
+
+				waveform.wfAnalyser.getByteTimeDomainData(waveform.ByteTimeDomainArray);
+				waveform.doWfd = true;
+				waveform.waveformId = requestAnimationFrame( waveform.drawWaveform );
+			}
+
 		},
 
 		reset: function() {

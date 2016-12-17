@@ -7,7 +7,8 @@ var require = {
 		trackSelect: 'mods/trackSelect/trackSelect',
 		peaks: 'mods/peaks/peaks',
 		waveform: 'mods/waveform/waveform',
-		rta: 'mods/rta/rta'
+		rta: 'mods/rta/rta',
+		oscillator: 'mods/oscillator/oscillator'
 	},
 	//deps: ["some/module1", "my/module2", "a.js", "b.js"],
 	//callback: function(module1, module2) {

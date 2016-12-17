@@ -16,7 +16,8 @@ requirejs.config({
 		trackSelect: 'mods/trackSelect/trackSelect',
 		peaks: 'mods/peaks/peaks',
 		waveform: 'mods/waveform/waveform',
-		rta: 'mods/rta/rta'
+		rta: 'mods/rta/rta',
+		oscillator: 'mods/oscillator/oscillator'
 	},
 	shim: {
 		// backbone: {
