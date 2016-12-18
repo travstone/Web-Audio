@@ -1,7 +1,6 @@
-
+/*
 body {
-/*				margin: 0;
-	padding: 0;*/
+
     font-family: sans-serif;
 }
 .audio-visualizer {
@@ -18,7 +17,6 @@ body {
 .audio-controls {
     border: 1px solid;
     margin-bottom: 12px;
-    /*padding-bottom: 12px;*/
     height: 40px;
     position: relative;
 }
@@ -74,8 +72,6 @@ audio {
 
 .graph-container {
     background-color: #02100e;
-    /*width: 100%;*/
-    /*max-width: 300px;*/
     padding: 2px;
 }
 .graph {
@@ -99,7 +95,6 @@ audio {
 	font-size: 36px;
 	font-weight: 700;
 	animation: pulse 1s infinite;
-	/* animation-direction: alternate; */
 }
 
 
@@ -115,3 +110,4 @@ audio {
   }
 
 }
+*/

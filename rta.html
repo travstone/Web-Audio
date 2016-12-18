@@ -30,9 +30,28 @@
 				</div>
 
 				<div class="graph-container">
-					<svg id="gc" class="graph" preserveAspectRatio="none" viewbox="0 0 1024 256"></svg>
+					<svg id="gc" class="graph" preserveAspectRatio="none" viewbox="0 0 1024 256">
+						<path stroke-width="0.5" fill="" stroke="rgba(255, 255, 255, 0.2)" id="neg30" d="M0, 84 L1024, 84"></path>
+						<path stroke-width="0.5" fill="" stroke="rgba(255, 255, 255, 0.2)" id="neg60" d="M0, 168 L1024, 168"></path>
+					</svg>
+					<span class="gfd gfd30">-30dB</span>
+					<span class="gfd gfd60">-60dB</span>
 					<span class="gfm gfm-low">20Hz</span>
 					<span class="gfm gfm-hi">20kHz</span>
+				</div>
+				<div class="graph-controls">
+					<label>Max dB: <input type="range" min="-30" max="0" step="1" id="maxDb" value="-15" /> <span id="maxDbVal">-15</span></label>
+					<label>Min dB: <input type="range" min="-90" max="-30" step="1" id="minDb" value="-80" /> <span id="minDbVal">-80</span></label>
+					<label>FFT Size: 
+						<select id="fftSize">
+							<option value="64">64</option>
+							<option value="128">128</option>
+							<option value="256" selected>256</option>
+							<option value="512">512</option>
+							<option value="1024">1024</option>
+							<option value="2048">2048</option>
+						</select>
+					</label>
 				</div>
 
 			</div>

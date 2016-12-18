@@ -9,6 +9,7 @@ define(function() {
 		if(!window.audioContextInstance) {
 			audioContextInstance = new AudioContext();
 			audioContextInstance.source = null;
+			audioContextInstance.outputConnected = false;
 			window.audioContextInstance = audioContextInstance;
 		}
 	} else {

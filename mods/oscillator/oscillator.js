@@ -36,7 +36,7 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 			oscillator.instance.type = oscillator.wType;
 			oscillator.instance.frequency.value = oscillator.freq; // value in hertz
 			oscillator.instance.gainNode = audioContext.createGain();
-			oscillator.instance.gainNode.gain.value = 0.02;
+			oscillator.instance.gainNode.gain.value = 0.05;
 
 			oscillator.instance.connect(oscillator.instance.gainNode);
 //gainNode.connect(audioCtx.destination);

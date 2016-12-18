@@ -39,7 +39,11 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 					waveform.context.source = waveform.context.createMediaElementSource(waveform.$player[0]);
 				}
 				waveform.context.source.connect(waveform.wfAnalyser);
-				waveform.wfAnalyser.connect(waveform.context.destination);
+				//waveform.wfAnalyser.connect(waveform.context.destination);
+				if (!waveform.context.outputConnected) {
+					waveform.wfAnalyser.connect(waveform.context.destination);
+					waveform.context.outputConnected = true;
+				};
 			} else {
 				audioContext.osc.connect(waveform.wfAnalyser);
 
@@ -106,6 +110,26 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 					value = $targ.val();
 				$('#waveform-path').attr('stroke', 'rgba(133, 255, 235,' + value + ')');
 			});
+
+
+			$('#fftSizeWave').on('change', function(e) {
+				var $targ = $(e.currentTarget),
+					value = $targ.val();
+					waveform.wfAnalyser.fftSize = value;
+					waveform.wfBufferLength = waveform.wfAnalyser.frequencyBinCount;
+					waveform.ByteTimeDomainArray = new Uint8Array(waveform.wfBufferLength);
+				//$('#waveform-path').attr('stroke', 'rgba(133, 255, 235,' + value + ')');
+			});
+
+			$('#smoothingWave').on('change', function(e) {
+				var $targ = $(e.currentTarget),
+					value = $targ.val();
+					waveform.wfAnalyser.smoothingTimeConstant = value;
+					waveform.wfBufferLength = waveform.wfAnalyser.frequencyBinCount;
+					waveform.ByteTimeDomainArray = new Uint8Array(waveform.wfBufferLength);
+				$('#smoothingWaveVal').text(waveform.wfAnalyser.smoothingTimeConstant);
+			});
+
 
 		},
 
