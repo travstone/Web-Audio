@@ -34,7 +34,7 @@ define(['jquery'], function( $ ) {
 			{tName: '05 Misty Mountain Hop.m4a', fType: 'audio/mp4'},
 			{tName: '04 Breed.m4a', fType: 'audio/mp4'},
 			{tName: '05 Vibrando Com A Seleção.m4a', fType: 'audio/mp4'},
-			{tName: '03 Bameli Soy.m4a', fType: 'audio/mp4'},
+			//{tName: '03 Bameli Soy.m4a', fType: 'audio/mp4'},
 
 
 			{tName: 'mellow_section_cd.wav', fType: 'audio/wav'},
