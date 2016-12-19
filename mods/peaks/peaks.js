@@ -1,71 +1,34 @@
 
-define(['jquery', 'audioContext'], function( $, audioContext ) {
+define(['jquery', 'audioContext', 'text!mods/peaks/peaks_tmpl.html'], function( $, audioContext, peaksTmpl ) {
 
 	"use strict";
 
 	var peaks = {
 
-		audioFile: null,
-
 		$container: null,
-		$player: null,
-		graphMarkup: null,
-		currentPct: null,
+		$body: null,
+		$template: null,
+		$playhead: null,
+
 		plotSize: 12000,
 		peaks: {'left': [], 'right': []},
-		analyser: null,
 
 		getPeaks: function(bufferData) {
-
 			var bufferLength = bufferData.length,
 				maxVal = 0,
 				minVal = 0,
-				//plotSize = 12000,
 				batchSize = Math.ceil( bufferLength / this.plotSize ),
 				inc = 0,
-				peaks = [],
+				batchPeaks = [],
 				curVal,
-				sign,
-				isPos,
-				posCount = 0,
-				negCount = 0,
 				setValue;
-			//console.log(bufferLength, bufferData, batchSize);
+
 			for (inc; bufferLength >= inc; inc++) {
-
-					//var abufferLength = this.analyser.frequencyBinCount;
-					//var adataArray = new Uint8Array(abufferLength);
-					//this.analyser.getByteTimeDomainData(adataArray);
-
-					//console.log(adataArray, adataArray.length);
-
-				// curVal is the current peaks array element
 				curVal = bufferData[inc];
-				sign = Math.sign(curVal);
-
-				// first determine if we're dealing with a positive or negative number
-				// then, compare it to the currently stored value for whichever it is
-				// and replace the stored value if current value is greater
-				// if(sign === 1) {
-				// 	isPos = true;
-				// 	posCount++;
-				// 	if( curVal > maxVal ) {
-				// 		maxVal = curVal;
-				// 	}
-				// }
-				// else if(sign === -1) {
-				// 	isPos = false;
-				// 	negCount++;
-				// 	if( curVal < minVal ) {
-				// 		minVal = curVal;
-				// 	}
-				// }
-
-				if(curVal > maxVal) {
-					maxVal = curVal
+				if( curVal > maxVal ) {
+					maxVal = curVal;
 				}
-
-				// everytime we have processed [batchSize] peaks, store a value in output
+				// everytime we have processed [batchSize] batchPeaks, store a value in output
 				if(inc % batchSize === 0 ) {
 					//console.log('store batch...');
 					// find whichever value is greater (positive or negative) - hence use Math.abs
@@ -75,27 +38,16 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 					else if( Math.abs(minVal) < Math.abs(maxVal) ) {
 						setValue = maxVal;
 					} else {
-						// if it's a tie, break tie by evaluating number of Positive compared to number of negative
-						//if(posCount > negCount) {
-							setValue = maxVal;
-						//} else {
-							//setValue = minVal;
-						//}
+						setValue = maxVal;
 					}
-
 					// by now we should have a single value for this batch
-					peaks.push( this.round(setValue, 4) );
-
+					batchPeaks.push( this.round(setValue, 4) );
 					// reset for next batch
 					maxVal = 0;
 					minVal = 0;
-					posCount = 0;
-					negCount = 0;
 				}
-
 			}
-
-			return peaks;
+			return batchPeaks;
 		},
 		
 		round: function(number, precision) {
@@ -105,9 +57,7 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 			return roundedTempNumber / factor;
 		},
 
-
 		drawWaveformSVG: function() {
-
 			$('.loading').text('Drawing Peaks');
 			var channels = ['left','right'],
 				chCount = 0,
@@ -116,188 +66,177 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 
 				if (channels[chCount] === 'left') {
 					sign = '-';
-					//console.log('flip sign...');
 				} else {
 					sign = '';
 				}
-
-				//console.log('Drawing...', channels[chCount]);
 				var chPeaks = this.peaks[channels[chCount]],
 					peaksLength = chPeaks.length,
-					strokeWidth = 1, // smooth ? 0.75 : 5;
-					path = document.getElementById('waveform-path-' + channels[chCount]),
-					d = '',//M0,0',
+					strokeWidth = 1,
+					path = document.getElementById('peak-path-' + channels[chCount]),
+					d = '',
 					peakNumber;
 
 				for(peakNumber = 0; peakNumber < peaksLength; peakNumber++) {
-					// if (peakNumber%2 === 0) {
-					// 	d += ' M'+ ~~(peakNumber/2) + ', ' + peaks.shift();
-					// } else {
-					// 	d += ' L'+ ~~(peakNumber/2) + ', ' + peaks.shift();
-					// }
-
-
-
-					//d += ' L'+ peakNumber + ', ' + ( peaks.shift() ) ;
-
 					var val = (chPeaks.shift() * 100);
-					//if (peakNumber%2 === 0) {
-						d += ' M'+ peakNumber + ', 0';
-					//} else {
-						d += ' L'+ peakNumber + ', ' + sign + val;
-						//d += ' L'+ peakNumber + ', -' + val;
-					//}
-
-
-
+					d += ' M'+ peakNumber + ', 0';
+					d += ' L'+ peakNumber + ', ' + sign + val;
 				}
 				path.setAttribute('stroke-width', strokeWidth);
 				path.setAttribute('d', d);
-
-
 			}
-
 			$('.loading').remove();
-
 		},
 
 		clearWaveformSVG: function() {
-			var lPath = document.getElementById('waveform-path-left'),
-				rPath = document.getElementById('waveform-path-right');
+			var lPath = document.getElementById('peak-path-left'),
+				rPath = document.getElementById('peak-path-right');
 				lPath.setAttribute('d', '');
 				rPath.setAttribute('d', '');
 		},
 
-
-		initAudio: function() {
-
-			$('.plot-container').append('<div class="loading">Loading... </div>');
-			// audioContext.createMediaElementSource(this.$player[0]);
-			// console.log(audioContext)
-			//$('#player').load();
-			this.audioFile = $('#track-player').find('source').attr('src');
-			peaks.clearWaveformSVG();
-			peaks.resetNeedle();
-
-			//peaks.resetMarkup();
-			//peaks.setHandlers();
-
+		initAudio: function(track) {
 			var self = this,
 				bufferData,
-				xhr = new XMLHttpRequest(),
-				file = this.audioFile;
-				console.log(file);
-			//self.resetNeedle();
-			xhr.open('GET', file, true);
+				xhr = new XMLHttpRequest();
+
+			self.clearWaveformSVG();
+			self.resetNeedle();
+			$('.peaks-container').append('<div class="loading">Loading... </div>');
+
+
+			xhr.open('GET', 'audio/' + track.file, true);
 			xhr.responseType = 'arraybuffer';
 			xhr.onload = function(e) {
-				//$('#player').find('source').attr('src', file);//.attr('type','mp4');
-
 				$('.loading').text('Decoding Audio');
-
 				audioContext.decodeAudioData(this.response,function(bufferData) {
 					$('.loading').text('Drawing Peaks');
-					peaks.peaks.left = peaks.getPeaks(bufferData.getChannelData(0));
-					peaks.peaks.right = peaks.getPeaks(bufferData.getChannelData(1));
-					peaks.drawWaveformSVG();
-
-					// var mySource = audioContext.createMediaElementSource($('#player')[0]);
-					// mySource.connect(self.analyser);
-
-					// var bufferLength = self.analyser.frequencyBinCount;
-					// var dataArray = new Uint8Array(bufferLength);
-					// self.analyser.getByteTimeDomainData(dataArray);
-
-					//console.log(dataArray, dataArray.length);
-
-					//console.log('Data: ', peaks.$player.data());
-					//peaks.$player.attr('data-time',peaks.$player.data().time);
-
+					self.peaks.left = self.getPeaks(bufferData.getChannelData(0));
+					self.peaks.right = self.getPeaks(bufferData.getChannelData(1));
+					self.drawWaveformSVG();
 				});
 			};
-			 
 			xhr.send();
 
 		},
 
-		// resetMarkup: function() {
-		// 	var self = this;
-		// 	self.$container.html(self.graphMarkup);
-		// 	self.$player = $('#player');
-		// },
-
-		setHandlers: function() {
+		setListeners: function() {
 			var self = this;
-			self.$player.on('loadedmetadata', function(e) {
-				//console.log('Loaded metadata: ', e.currentTarget.duration);
-				//self.$player.attr('data-time',e.currentTarget.duration);
+			this.$body.on('trackSelect.selected', function(data) {
+				self.initAudio(data.track);
 			});
-			// self.$player.on('durationchange', function(e) {
-			// 	//console.log('dURATION cHANGED: ', e.currentTarget.duration);
-			// 	//self.$player.attr('data-time',e.currentTarget.duration);
-			// });
-
-			self.$player.on('playing', function(e) {
-				//console.log('Event: ', e);
-				//moveTheNeedle(e);
-			});
-			self.$player.on('progress', function(e) {
-				//console.log('Event: ', e);
-				//console.log($player.data());
-				//moveTheNeedle(e);
-			});
-			self.$player.on('timeupdate', function(e) {
+			this.$body.on('player.timeupdate', function(data) {
+				//console.log('player timeupdate...', data.e);
 				requestAnimationFrame( function() {
-					self.moveTheNeedle(e);
+					self.moveTheNeedle(data.e);
 				});
-				//self.moveTheNeedle(e);
-			});
-
-			$('#ac1').on('mousedown.playhead', '#playHead', function(e) {
-				console.log('Playhead... ',e);
-				$('body').on('mousemove.playhead', function(e) {
-					console.log('dragging... ',e);
-				});
-			});
-			$('#ac1').on('mouseup', function(e) {
-				$('body').off('mousemove.playhead');
-				console.log('clear drag listener... ',e);
-			});
+			})
 		},
 
+		//setHandlers: function() {
+			//var self = this;
+
+			// this.$body.on('player.durationchange', function(e) {
+			// 	console.log('player durationchange...');
+			// })
+
+			// this.$body.on('player.loadedmetadata', function(e) {
+			// 	console.log('player loadedmetadata...');
+			// })
+
+			// this.$body.on('player.loadeddata', function(e) {
+			// 	console.log('player loadeddata...');
+			// })
+
+			// this.$body.on('player.canplay', function(e) {
+			// 	console.log('player canplay...');
+			// })
+
+			// this.$body.on('player.canplaythrough', function(e) {
+			// 	console.log('player canplaythrough...');
+			// })
+
+
+
+			// this.$body.on('player.play', function(e) {
+			// 	console.log('player play...');
+			// })
+
+			// this.$body.on('player.playing', function(e) {
+			// 	console.log('player playing...');
+			// })
+
+			// this.$body.on('player.progess', function(e) {
+			// 	console.log('player progess...');
+			// })
+
+
+
+			// this.$body.on('player.pause', function(e) {
+			// 	console.log('player pause...');
+			// })
+
+
+
+			// this.$body.on('player.seeking', function(e) {
+			// 	console.log('player seeking...');
+			// })
+
+			// this.$body.on('player.seeked', function(e) {
+			// 	console.log('player seeked...');
+			// })
+
+
+
+
+
+
+			// $('#ac1').on('mousedown.playhead', '#playHead', function(e) {
+			// 	console.log('Playhead... ',e);
+			// 	this.$body.on('mousemove.playhead', function(e) {
+			// 		console.log('dragging... ',e);
+			// 	});
+			// });
+			// $('#ac1').on('mouseup', function(e) {
+			// 	this.$body.off('mousemove.playhead');
+			// 	console.log('clear drag listener... ',e);
+			// });
+		//},
+
 		init: function() {
-			var self = this;
-			this.$container = $('#ac1');
-			this.$player = $('#track-player');
-			//this.initAudio();
-			//$.get('mods/peaks/peaks_tmpl.html').done(function(data) {
-				//self.graphMarkup = $(data).clone();
-				//self.resetMarkup();
-				self.setHandlers();
-			//});
-			//this.analyser = audioContext.createAnalyser();
+			console.log('peaks init...');
+			this.$container = $('#peaks-display');
+			this.$body = $('body');
+			this.$template = $(peaksTmpl);
+			this.$container.append(this.$template);
+			this.$playhead = $('#playHead');
+			//this.setHandlers();
+			this.setListeners();
+			//console.log(this.$playhead);
 		},
 
 
 		moveTheNeedle: function(e) {
-			var self = this;
+			//var self = this;
 			//console.log(e.currentTarget.currentTime, e.currentTarget.duration);
+			if (this.$playhead.length !== 1) {this.$playhead = $('#playHead'); console.log('setting playhead after...', this);};
 			var time =  e.currentTarget.currentTime,
 				duration = e.currentTarget.duration,
-				pct = (duration / 100);
-				this.currentPct = ( time / pct );
-			//console.log(duration, time , pct, this.currentPct);
-
-			var svgWidth = this.plotSize,
+				pct = (duration / 100),
+				currentPct = ( time / pct ),
+				svgWidth = this.plotSize,
 				svgPct = svgWidth / 100,
-				newLocation = svgPct * this.currentPct;
-				//console.log(newLocation);
+				newLocation = svgPct * currentPct;
+
 			if ($.isNumeric(newLocation)) {
-				$('#playHead').attr('d', 'M'+newLocation+', -100 L'+newLocation+', 100' );
+				//console.log(newLocation, this.$playhead, this);
+				this.$playhead.attr('d', 'M'+newLocation+', -100 L'+newLocation+', 100' );
+			} else {
+				//console.log('Whoops... ');
 			}
 		},
+
 		resetNeedle: function() {
-			$('#playHead').attr('d', 'M0, -100 L0, 100' );
+			this.$playhead.attr('d', 'M0, -100 L0, 100' );
 		}
 
 

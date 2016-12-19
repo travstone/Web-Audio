@@ -1,0 +1,60 @@
+
+<div class="component wave-container">
+	<h4 class="component-header">Waveform</h4>
+	<div class="component-body">
+		<svg class="waveform-window" preserveAspectRatio="none" viewbox="0 0 1024 256">
+			<defs>
+				<filter id="glow">
+					<feGaussianBlur stdDeviation="10" result="coloredBlur"/>
+					<feMerge>
+						<feMergeNode in="coloredBlur"/>
+						<feMergeNode in="SourceGraphic"/>
+					</feMerge>
+				</filter>
+			</defs>
+			<path stroke-width="0.5" fill="" stroke="#ffffff" id="zeroLine" d="M0, 128 L1024, 128"></path>
+			<path stroke-width="1.5" fill="none" stroke="rgba(133, 255, 235, 0.8)" id="waveform" d="" filter="url(#glow)"></path>
+
+			<span class="wfd wfd0">0dB</span>
+			<span class="wfd wfd12">-12dB</span>
+			<span class="wfd wfdInf">-Inf</span>
+			<span class="wfd wfd-12">-12dB</span>
+			<span class="wfd wfd-0">-0dB</span>
+		</svg>
+		<div class="component-controls waveform-controls">
+
+
+			<div class="control">
+				<label class="control-label" for="stroke">Trace Size: </label>
+				<input class="control-widget" type="range" min="0.2" max="8" step="0.1" id="stroke" name="stroke" value="1.5" />
+				<span class="control-readout" id="sizeVal">1.5</span>
+			</div>
+			<div class="control">
+				<label class="control-label" for="brightness">Trace Brightness: </label>
+				<input class="control-widget" type="range"  min="0.1" max="1" step="0.1" id="brightness" name="brightness" value="0.8" />
+				<span class="control-readout" id="brightnessVal">0.8</span>
+			</div>
+			<div class="control">
+				<label class="control-label" for="fftSizeWave">FFT Size: </label>
+				<select class="control-widget" id="fftSizeWave" name="fftSizeWave">
+					<option value="64">64</option>
+					<option value="128">128</option>
+					<option value="256">256</option>
+					<option value="512">512</option>
+					<option value="1024">1024</option>
+					<option value="2048" selected>2048</option>
+					<option value="4096">4096</option>
+					<option value="8192">8192</option>
+					<option value="16384">16384</option>
+				</select>
+			</div>
+			<div class="control">
+				<label class="control-label" for="smoothingWave">Smoothing: </label>
+				<input class="control-widget" type="range" min="0.1" max="1" step="0.1" id="smoothingWave" name="smoothingWave" value="0.9" />
+				<span class="control-readout" id="smoothingWaveVal">0.9</span>
+			</div>
+
+
+		</div>
+	</div>
+</div>

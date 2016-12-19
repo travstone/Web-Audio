@@ -5,6 +5,7 @@
 		<title>Audio Peaks</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script data-main="js/app" src="js/libs/require/require.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/styles.css">
 		<link rel="stylesheet" type="text/css" href="mods/peaks/peaks.css">
 
 	</head>
@@ -14,29 +15,18 @@
 			<h1>Audio Peaks</h1>
 			<p><a href="index.html">Home</a></p>
 
-			<div id="ac1">
-				<div class="plot-container">
-					<span class="label-left">Left</span>
-					<span class="label-right">Right</span>
-					<svg class="waveform-container" preserveAspectRatio="none" viewbox="0 -100 12000 200" >
-
-						<path fill="none" stroke="#000000" class="wfPath" id="waveform-path-left" d=""></path>
-						<path fill="none" stroke="#000000" class="wfPath" id="waveform-path-right" d=""></path>
-						<path fill="none" stroke="rgb(0,0,255)" id="zeroLine" d="M0, 0 L12000, 0" stroke-width="0.5"></path>
-						<path fill="none" stroke="rgba(255,0,0,0.6)" id="playHead" d="M0, -100 L0, 100" stroke-width="25"></path>
-
-					</svg>
+			<div class="audio-rack">
+				<div class="component">
+					<div id="track-select"></div>
+					<audio id="track-player" controls></audio>
 				</div>
+				<div id="peaks-display"></div>
 			</div>
-
-			<audio id="track-player" controls></audio>
-
-			<div id="track-select"></div>
 
 		</div>
 
 		<script type="text/javascript">
-			requirejs(['mods/peaks/main-peaks.js']);
+			requirejs(['js/main-peaks.js']);
 		</script>
 
 	</body>

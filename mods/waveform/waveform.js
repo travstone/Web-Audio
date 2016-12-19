@@ -1,17 +1,17 @@
 
-define(['jquery', 'audioContext'], function( $, audioContext ) {
+define(['jquery', 'audioContext', 'text!mods/waveform/waveform_tmpl.html'], function( $, audioContext, waveformTmpl ) {
 
 	"use strict";
 
 	var waveform = {
 
-		$player: $('#track-player'),
+		$player: null,
+		$container: null,
+		$body: null,
+		$template: null,
+		$waveform: null,
 
-		cont : document.getElementById('ac'),
-		waveformPath : document.getElementById('waveform-path'),
-
-		context : audioContext, //new (window.AudioContext || window.webkitAudioContext)(),
-		//source : null,
+		context : audioContext,
 		wfAnalyser : null,
 		grAnalyser : null,
 		wfBufferLength : null,
@@ -22,118 +22,102 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 		doWfd : false,
 		waveformId : null,
 
-		init : function(useEl) {
-			waveform.wfAnalyser = waveform.context.createAnalyser();
-			waveform.wfAnalyser.fftSize = 2048;
-			waveform.wfAnalyser.smoothingTimeConstant = 0.9;
-			console.log(waveform.context);
-			waveform.reset();
-			waveform.setListeners();
-			waveform.wfBufferLength = waveform.wfAnalyser.frequencyBinCount;
-			waveform.ByteTimeDomainArray = new Uint8Array(waveform.wfBufferLength);
+		init : function() {
+			console.log('waveform init...');
+			this.$container = $('#wave-display');
+			this.$body = $('body');
+			this.$template = $(waveformTmpl);
+			this.$container.append(this.$template);
+			this.$waveform = $('#waveform');
+			this.$player = $('#track-player');
+			//this.setHandlers();
+			this.setListeners();
+			this.getAudio();
+		},
+
+		getAudio: function() {
+
+			this.wfAnalyser = this.context.createAnalyser();
+			this.wfAnalyser.fftSize = 2048;
+			this.wfAnalyser.smoothingTimeConstant = 0.9;
+
+			//this.setListeners();
+			this.wfBufferLength = this.wfAnalyser.frequencyBinCount;
+			this.ByteTimeDomainArray = new Uint8Array(this.wfBufferLength);
 			//FloatTimeDomainArray = new Float32Array(wfBufferLength);
 
-			if (useEl) {
-				if (!waveform.context.source) {
-					console.log('Define the source!');
-					waveform.context.source = waveform.context.createMediaElementSource(waveform.$player[0]);
+			if (this.$player.length === 1) {
+				if (!this.context.source) {
+					//console.log('Define the source!');
+					this.context.source = this.context.createMediaElementSource(this.$player[0]);
 				}
-				waveform.context.source.connect(waveform.wfAnalyser);
-				//waveform.wfAnalyser.connect(waveform.context.destination);
-				if (!waveform.context.outputConnected) {
-					waveform.wfAnalyser.connect(waveform.context.destination);
-					waveform.context.outputConnected = true;
-				};
+				this.context.source.connect(this.wfAnalyser);
+				//this.wfAnalyser.connect(this.context.destination);
+				if (!this.context.outputConnected) {
+					this.wfAnalyser.connect(this.context.destination);
+					this.context.outputConnected = true;
+				}
 			} else {
-				audioContext.osc.connect(waveform.wfAnalyser);
+				console.log('we have an osc...');
+				this.context.osc.connect(this.wfAnalyser);
 
-				waveform.wfAnalyser.getByteTimeDomainData(waveform.ByteTimeDomainArray);
-				waveform.doWfd = true;
-				waveform.waveformId = requestAnimationFrame( waveform.drawWaveform );
+				this.wfAnalyser.getByteTimeDomainData(this.ByteTimeDomainArray);
+				this.doWfd = true;
+				this.waveformId = requestAnimationFrame( this.drawWaveform );
 			}
 
 		},
 
-		reset: function() {
-			$('#loading-indicator').hide();
-
-			// $('#track-select').off().on('change', function(e) {
-			// 	var $cont = $('.audio-controls'),
-			// 		$targ = $(e.currentTarget),
-			// 		val = $targ.val(),
-			// 		d = $('[value="'+val+'"]').data(),
-			// 		$player = $('#track-player');
-			// 	//console.log('Track: ' , $targ,  $targ.val(), d);
-			// 	$player.html('');
-			// 	$player.append('<source src="audio/'+val+'" type="'+d.mtype+'">');
-			// 	$player[0].load();
-			 	//waveform.$player[0].play();
-			// 	//waveform.setListeners();
-			// });
-			//console.log(wfd);
-
-		},
-
 		setListeners : function() {
-			$('#track-player').on('playing', function(e) {
-				//console.log('Playing',e);
-				waveform.doWfd = true;
-				waveform.waveformId = requestAnimationFrame( waveform.drawWaveform );
+			var self = this;
+
+			this.$body.on('player.playing', function(e) {
+				console.log('play-ing');
+				self.doWfd = true;
+				self.waveformId = requestAnimationFrame( self.drawWaveform );
 			});
 
-			$('#track-player').on('pause', function(e) {
-				//console.log('Paused',e);
-				waveform.doWfd = false;
-				// waveform.waveformId = requestAnimationFrame( waveform.drawWaveform );
-			});
-
-			$('#track-player').on('loadstart', function(e) {
-				//console.log('loadstart',e);
-				$('#track-player').hide();
-				$('#loading-indicator').show();
-			});
-
-			$('#track-player').on('canplay', function(e) {
-				//console.log('canplay',e);
-				$('#loading-indicator').hide();
-				$('#track-player').show();
+			this.$body.on('player.pause', function(e) {
+				console.log('pause');
+				self.doWfd = false;
 			});
 
 			$('#stroke').on('change', function(e) {
 				var $targ = $(e.currentTarget),
 					value = $targ.val();
-				$('#waveform-path').attr('stroke-width', value);
+				self.$waveform.attr('stroke-width', value);
+				$('#sizeVal').text(value);
 			});
 
 			$('#brightness').on('change', function(e) {
 				var $targ = $(e.currentTarget),
 					value = $targ.val();
-				$('#waveform-path').attr('stroke', 'rgba(133, 255, 235,' + value + ')');
+				self.$waveform.attr('stroke', 'rgba(133, 255, 235,' + value + ')');
+				$('#brightnessVal').text(value);
 			});
-
 
 			$('#fftSizeWave').on('change', function(e) {
 				var $targ = $(e.currentTarget),
 					value = $targ.val();
-					waveform.wfAnalyser.fftSize = value;
-					waveform.wfBufferLength = waveform.wfAnalyser.frequencyBinCount;
-					waveform.ByteTimeDomainArray = new Uint8Array(waveform.wfBufferLength);
+					self.wfAnalyser.fftSize = value;
+					self.wfBufferLength = self.wfAnalyser.frequencyBinCount;
+					self.ByteTimeDomainArray = new Uint8Array(self.wfBufferLength);
 				//$('#waveform-path').attr('stroke', 'rgba(133, 255, 235,' + value + ')');
 			});
 
 			$('#smoothingWave').on('change', function(e) {
 				var $targ = $(e.currentTarget),
 					value = $targ.val();
-					waveform.wfAnalyser.smoothingTimeConstant = value;
-					waveform.wfBufferLength = waveform.wfAnalyser.frequencyBinCount;
-					waveform.ByteTimeDomainArray = new Uint8Array(waveform.wfBufferLength);
-				$('#smoothingWaveVal').text(waveform.wfAnalyser.smoothingTimeConstant);
+					self.wfAnalyser.smoothingTimeConstant = value;
+					self.wfBufferLength = self.wfAnalyser.frequencyBinCount;
+					self.ByteTimeDomainArray = new Uint8Array(self.wfBufferLength);
+				$('#smoothingWaveVal').text(self.wfAnalyser.smoothingTimeConstant);
 			});
-
 
 		},
 
 		drawWaveform : function() {
+			var self = this;
 			//console.log('w');
 			if (waveform.doWfd) {
 				var x = 0,
@@ -154,7 +138,7 @@ define(['jquery', 'audioContext'], function( $, audioContext ) {
 					}
 					x += sliceWidth;
 				}
-				waveform.waveformPath.setAttribute('d', d);
+				waveform.$waveform[0].setAttribute('d', d);
 				waveform.waveformId = requestAnimationFrame(waveform.drawWaveform);
 			}
 		}

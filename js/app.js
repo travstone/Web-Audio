@@ -10,14 +10,17 @@
 requirejs.config({
 	baseUrl: './',
 	paths: {
+		text : "js/libs/require/text",
 		//app: '../app',
 		jquery: 'js/libs/jquery/jquery-2.2.2.min',
+		player: 'mods/player/player',
 		audioContext: 'mods/audioContext/audioContext',
 		trackSelect: 'mods/trackSelect/trackSelect',
 		peaks: 'mods/peaks/peaks',
 		waveform: 'mods/waveform/waveform',
 		rta: 'mods/rta/rta',
 		oscillator: 'mods/oscillator/oscillator'
+
 	},
 	shim: {
 		// backbone: {

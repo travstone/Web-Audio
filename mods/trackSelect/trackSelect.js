@@ -1,13 +1,12 @@
 
-define(['jquery'], function( $ ) {
+define(['jquery', 'text!mods/trackSelect/trackSelect_tmpl.html'], function( $, trackSelectTmpl ) {
 
 	"use strict";
 	var trackSelect = {
 
-		$markup: null,
+		$body: null,
 		$container: null,
-		$player: null,
-		loadedCb: null,
+		$template: null,
 
 		tracks: [
 			//{tName: '', fType: ''},
@@ -45,45 +44,42 @@ define(['jquery'], function( $ ) {
 
 		setTrackList: function() {
 			var count = 0,
-				tl = trackSelect.tracks,
+				tl = this.tracks,
 				tlLen = tl.length,
 				prettyName = null;
 			for (count; count<tlLen; count++) {
 				prettyName = tl[count].tName.slice(0,-4);
-				trackSelect.$markup.append('<option value="'+tl[count].tName+'" data-ftype="'+tl[count].fType+'">'+prettyName+'</option>');
+				this.$template.append('<option value="'+tl[count].tName+'" data-ftype="'+tl[count].fType+'">'+prettyName+'</option>');
 			}
 		},
 
-		init: function($sel, $player, loadedCb) {
-			console.log('Init trackSelect');
-			$.get('mods/trackSelect/trackSelect_tmpl.html').done(function(data) {
-				trackSelect.$player = $player;
-				trackSelect.$markup = $(data).clone();
-				trackSelect.setTrackList();
-				trackSelect.$container = $sel;
-				trackSelect.loadedCb = loadedCb;
-				console.log('trackSelect template retrieved', data, trackSelect.$markup, trackSelect.$container);
-				trackSelect.$container.html( trackSelect.$markup );
-				trackSelect.setHandlers();
-			});
+		init: function(loadedCb) {
+			console.log('trackSelect init...');
+			this.$body = $('body');
+			this.$container = $('#track-select');
+			this.$template = $(trackSelectTmpl);
+			this.$container.append(this.$template);
+			this.setTrackList();
+			this.setHandlers();
 		},
 
 		setHandlers: function() {
-			trackSelect.$container.off().on('change', function(e) {
+			var self = this;
+
+			this.$container.on('change', function(e) {
 				var $targ = $(e.target),
-					//d = $('[value="'+val+'"]').data(),
-					type = e.target.selectedOptions[0].dataset.ftype; //$targ.data().ftype;
-				console.log('Clicked...', e, e.target.selectedOptions[0].dataset, $targ);
-				trackSelect.$player[0].pause();
-				trackSelect.$player.html('');
-				trackSelect.$player.html('<source src="audio/'+$targ.val()+'" type="'+type+'"></source>');
-				trackSelect.$player[0].load();
-				trackSelect.loadedCb();
+					file = $targ.val(),
+					type = e.target.selectedOptions[0].dataset.ftype,
+					track = {
+						'file':file,
+						'type':type
+					};
+				self.$body.trigger({
+					'type': 'trackSelect.selected',
+					'track': track
+				});
+
 			});
-		},
-
-		trackLoaded: function() {
-
 		}
 
 	};

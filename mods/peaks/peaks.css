@@ -1,17 +1,4 @@
-body {
-	font-family: sans-serif;
-}
-#ac1 {
-	margin-bottom: 12px;
-}
-.plot-container {
-	position: relative;
-	background-color: #01211f;
 
-	box-shadow: inset 0 0 14px #fff;
-	border: 1px solid;
-
-}
 .label-left {
 	color: rgba(255,255,255,0.5);
 	position: absolute;
@@ -29,40 +16,18 @@ body {
 	font-size: 10px;
 	color: rgba(255,255,255,0.5);
 }
-.waveform-container {
-	height: 200px;
+.peaks-svg {
+	height: 256px;
 	width: 100%;
+	background-color: #052d27;
+	box-shadow: inset 0px 0px 13px #000;
 }
-.wfPath {
-	stroke: rgba(255,255,255,0.4);
+.peak-path {
+	stroke: rgba(120, 249, 224, 0.8);
 }
 #zeroLine {
-	stroke: rgb(0,0,255);
+	stroke: rgb(250, 251, 61);
 }
 #playHead {
-	stroke: rgba(255,0,0,0.6);
-}
-.loading {
-	position: absolute;
-	color: rgb(255,0,0);
-	top: 20px;
-	left: 20px;
-	font-size: 36px;
-	font-weight: 700;
-	animation: pulse 1s infinite;
-	/* animation-direction: alternate; */
-}
-
-
-@keyframes pulse {
-  0% {
-    color: rgb(255,0,0);
-  }
-  50% {
-    color: rgb(127,0,0);
-  }
-  100% {
-    color: rgb(255,0,0);
-  }
-
+	stroke: rgba(255,0,0,0.8);
 }

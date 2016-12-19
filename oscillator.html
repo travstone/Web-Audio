@@ -5,6 +5,7 @@
 		<title>Audio Peaks</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script data-main="js/app" src="js/libs/require/require.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/styles.css">
 		<link rel="stylesheet" type="text/css" href="mods/waveform/waveform.css">
 		<link rel="stylesheet" type="text/css" href="mods/rta/rta.css">
 		<link rel="stylesheet" type="text/css" href="mods/oscillator/oscillator.css">
@@ -16,88 +17,19 @@
 			<h1>Audio Oscillator</h1>
 			<p><a href="index.html">Home</a></p>
 
-			<div id="osc-container">
-				<p>Oscillator</p>
-				<label>Freq: <input id="freq" type="range" min="20" max="20000" step="1" value="440"> <span id="freqDisplay">440</span>Hz</label>
-				<label>Wave Type: 
-					<select id="wType">
-						<option value="square">Square</option>
-						<option value="sine">Sine</option>
-						<option value="triangle">Triangle</option>
-						<option value="sawtooth">Sawtooth</option>
-					</select>
-				</label>
-				<button id="playPause">Play/Pause</button>
-			</div>
+			
 
 
-			<div class="audio-visualizer">
-
-				<div class="wave-container">
-					<svg id="ac" class="waveform-container" preserveAspectRatio="none" viewbox="0 0 1024 256">
-						<defs>
-							<filter id="glow">
-							    <feGaussianBlur stdDeviation="10" result="coloredBlur"/>
-							    <feMerge>
-							        <feMergeNode in="coloredBlur"/>
-							        <feMergeNode in="SourceGraphic"/>
-							    </feMerge>
-							</filter>
-						</defs>
-						<path stroke-width="0.5" fill="" stroke="rgba(255, 96, 96, 0.5)" id="zeroLine" d="M0, 128 L1024, 128"></path>
-						<path stroke-width="3" fill="none" stroke="rgba(133, 255, 235, 0.8)" id="waveform-path" d="" filter="url(#glow)"></path>
-					</svg>
-					<div class="waveform-controls">
-						<label>Size: <input type="range" min="0.2" max="8" step="0.1" id="stroke" value="3" /></label>
-						<label>Brightness: <input type="range" min="0.1" max="1" step="0.1" id="brightness" value="0.8" /></label>
-						<label>FFT Size: 
-							<select id="fftSizeWave">
-								<option value="64">64</option>
-								<option value="128">128</option>
-								<option value="256">256</option>
-								<option value="512">512</option>
-								<option value="1024">1024</option>
-								<option value="2048" selected>2048</option>
-								<option value="4096">4096</option>
-								<option value="8192">8192</option>
-								<option value="16384">16384</option>
-							</select>
-						</label>
-						<label>Smoothing: <input type="range" min="0.1" max="1" step="0.1" id="smoothingWave" value="0.9" /> <!--<span id="smoothingWaveVal">0.9</span>--></label>
-					</div>
-				</div>
-
-				<div class="graph-container">
-					<svg id="gc" class="graph" preserveAspectRatio="none" viewbox="0 0 1024 256">
-						<path stroke-width="0.5" fill="" stroke="rgba(255, 255, 255, 0.2)" id="neg30" d="M0, 84 L1024, 84"></path>
-						<path stroke-width="0.5" fill="" stroke="rgba(255, 255, 255, 0.2)" id="neg60" d="M0, 168 L1024, 168"></path>
-					</svg>
-					<span class="gfd gfd30">-30dB</span>
-					<span class="gfd gfd60">-60dB</span>
-					<span class="gfm gfm-low">20Hz</span>
-					<span class="gfm gfm-hi">20kHz</span>
-				</div>
-				<div class="graph-controls">
-					<label>Max dB: <input type="range" min="-30" max="0" step="1" id="maxDb" value="-15" /> <span id="maxDbVal">-15</span></label>
-					<label>Min dB: <input type="range" min="-90" max="-30" step="1" id="minDb" value="-80" /> <span id="minDbVal">-80</span></label>
-					<label>FFT Size: 
-						<select id="fftSize">
-							<option value="64">64</option>
-							<option value="128">128</option>
-							<option value="256" selected>256</option>
-							<option value="512">512</option>
-							<option value="1024">1024</option>
-							<option value="2048">2048</option>
-						</select>
-					</label>
-				</div>
-
+			<div class="audio-rack">
+				<div id="osc-display"></div>
+				<div id="wave-display"></div>
+				<div id="rta-display"></div>
 			</div>
 
 		</div>
 
 		<script type="text/javascript">
-			requirejs(['mods/oscillator/oscillator.js','mods/waveform/waveform.js','mods/rta/rta.js'], function(osc,waveform,rta) {osc.init(); waveform.init(); rta.init()});
+			requirejs(['js/main-oscillator.js']);
 		</script>
 
 	</body>

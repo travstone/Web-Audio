@@ -1,117 +1,36 @@
 
-body {
-/*				margin: 0;
-	padding: 0;*/
-    font-family: sans-serif;
-}
-.audio-visualizer {
-    margin: 12px;
-    padding: 12px;
+.waveform-window {
+	position: relative;
+    background-color: #052d27;
+    box-shadow: inset 0px 0px 13px #000;
+    height: 256px;
     width: 100%;
-    max-width: 800px;
-    border: 1px solid;
 }
-#track-select {
-	float: left;
-	margin-top: 6px;
+#zeroLine {
+	stroke: rgb(250, 251, 61);
 }
-.audio-controls {
-    border: 1px solid;
-    margin-bottom: 12px;
-    /*padding-bottom: 12px;*/
-    height: 40px;
-    position: relative;
-}
-.audio-controls label {
-    vertical-align: middle;
-    float: left;
-    margin-top: 6px;
-    margin-left: 6px;
-}
-.audio-controls input {
-    vertical-align: middle;
-}
-.audio-controls select {
-    max-width: 286px;
-}
-
-audio {
-    width: 480px;
-}
-
-#loading-indicator {
-    vertical-align: top;
-    font-size: 12px;
-    position: absolute;
-    padding: 0;
-    top: 9px;
-    right: 193px;
-    display: inline;
-    color: red;
-    font-weight: 700;
-}
-
-.wave-container {
-    border: 1px solid;
-    margin-bottom: 12px;
-    padding-bottom: 12px;
-}
-.waveform-container {
-    background-color: #02100e;
-}
-.waveform-controls {
-    padding: 4px;
-}
-.waveform-controls label {
-    vertical-align: middle;
-    margin-right: 24px;
-    font-size: 12px;
-}
-.waveform-controls input {
-    vertical-align: middle;
-}
-
-
-.graph-container {
-    background-color: #02100e;
-    /*width: 100%;*/
-    /*max-width: 300px;*/
-    padding: 2px;
-}
-.graph {
-    max-height: 100%
-}
-.gfm {
+.wfd {
+	position: absolute;
     color: #ccc;
     font-size: 8px;
 }
-.gfm-hi {
-    float: right;
+.wfd0 {
+	top: 2;
+	right: 2;
 }
-
-
-
-.loading {
-	position: absolute;
-	color: rgb(255,0,0);
-	top: 20px;
-	left: 20px;
-	font-size: 36px;
-	font-weight: 700;
-	animation: pulse 1s infinite;
-	/* animation-direction: alternate; */
+.wfd12 {
+	top: 64;
+	right: 2;
 }
-
-
-@keyframes pulse {
-  0% {
-    color: rgb(255,0,0);
-  }
-  50% {
-    color: rgb(127,0,0);
-  }
-  100% {
-    color: rgb(255,0,0);
-  }
-
+.wfdInf {
+	top:128;
+	right: 2;
+}
+.wfd-12 {
+	top: 192;
+	right: 2;
+}
+.wfd-0 {
+	top: 246;
+	right: 2;
 }

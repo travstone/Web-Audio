@@ -1,113 +1,88 @@
 
-define(['jquery', 'audioContext'], function( $, audioContext ) {
+define(['jquery', 'audioContext', 'text!mods/oscillator/oscillator_tmpl.html'], function( $, audioContext, oscillatorTmpl ) {
 
 	"use strict";
 
 	var oscillator = {
 
-		// $player: $('#track-player'),
+		$container: null,
+		$body: null,
+		$template: null,
 
-		// cont : document.getElementById('ac'),
-		// waveformPath : document.getElementById('waveform-path'),
-
-		// context : audioContext, //new (window.AudioContext || window.webkitAudioContext)(),
-		// //source : null,
-		// wfAnalyser : null,
-		// grAnalyser : null,
-		// wfBufferLength : null,
-		// ByteTimeDomainArray : null,
-		// //FloatTimeDomainArray : null,
-		// ByteFrequencyArray : null,
-
-		// doWfd : false,
-		// waveformId : null,
-
+		inst: null,
 		freq: 440,
 		wType: 'square',
+		started: false,
 
 		init : function() {
-			console.log('Osc init...');
-
-
-			oscillator.setListeners();
-
-			oscillator.instance = audioContext.createOscillator();
-
-			oscillator.instance.type = oscillator.wType;
-			oscillator.instance.frequency.value = oscillator.freq; // value in hertz
-			oscillator.instance.gainNode = audioContext.createGain();
-			oscillator.instance.gainNode.gain.value = 0.05;
-
-			oscillator.instance.connect(oscillator.instance.gainNode);
-//gainNode.connect(audioCtx.destination);
-			oscillator.instance.gainNode.connect(audioContext.destination);
-			//oscillator.instance.start();
-
-			if (!audioContext.osc) {
-				console.log('Define the source!');
-				audioContext.osc = oscillator.instance;//audioContext.createMediaElementSource(waveform.$player[0]);
-			};
-
-			// waveform.wfAnalyser = waveform.context.createAnalyser();
-			// waveform.wfAnalyser.fftSize = 2048;
-			// waveform.wfAnalyser.smoothingTimeConstant = 0.9;
-			// if (!waveform.context.source) {
-			// 	console.log('Define the source!');
-			// 	waveform.context.source = waveform.context.createMediaElementSource(waveform.$player[0]);
-			// };
-			// //waveform.source = waveform.context.createMediaElementSource(waveform.$player[0]);
-			// console.log(waveform.context);
-			// waveform.reset();
-			// waveform.setListeners();
-			// waveform.wfBufferLength = waveform.wfAnalyser.frequencyBinCount;
-			// waveform.ByteTimeDomainArray = new Uint8Array(waveform.wfBufferLength);
-			// //FloatTimeDomainArray = new Float32Array(wfBufferLength);
-			// waveform.context.source.connect(waveform.wfAnalyser);
-			// waveform.wfAnalyser.connect(waveform.context.destination);
+			console.log('osc init...');
+			this.$container = $('#osc-display');
+			this.$body = $('body');
+			this.$template = $(oscillatorTmpl);
+			this.$container.append(this.$template);
+			this.setListeners();
+			this.createOsc();
 		},
 
-		reset: function() {
-			$('#loading-indicator').hide();
+		createOsc: function() {
+			this.inst = null;
+			this.inst = audioContext.createOscillator();
+			this.inst.type = this.wType;
+			this.inst.frequency.value = this.freq; // value in hertz
+			this.inst.gainNode = audioContext.createGain();
+			this.inst.gainNode.gain.value = 0.1;
+			this.inst.connect(this.inst.gainNode);
+			//this.inst.gainNode.connect(audioContext.destination);
+			if (!audioContext.osc) {
+				console.log('Define the source!');
+				audioContext.osc = this.inst;//audioContext.createMediaElementSource(waveform.$player[0]);
+			}
+			
+		},
 
-			// $('#track-select').off().on('change', function(e) {
-			// 	var $cont = $('.audio-controls'),
-			// 		$targ = $(e.currentTarget),
-			// 		val = $targ.val(),
-			// 		d = $('[value="'+val+'"]').data(),
-			// 		$player = $('#track-player');
-			// 	//console.log('Track: ' , $targ,  $targ.val(), d);
-			// 	$player.html('');
-			// 	$player.append('<source src="audio/'+val+'" type="'+d.mtype+'">');
-			// 	$player[0].load();
-			 	//waveform.$player[0].play();
-			// 	//waveform.setListeners();
-			// });
-			//console.log(wfd);
-
+		connectOsc: function() {
+			this.inst.gainNode.connect(audioContext.destination);
+		},
+		disconnectOsc: function() {
+			this.inst.gainNode.disconnect(audioContext.destination);
 		},
 
 		setListeners : function() {
+			var self = this;
 			$('#freq').on('change', function(e) {
 				//console.log('Playing',e);
 				var $targ = $(e.currentTarget);
-				oscillator.freq = $targ.val();
-				oscillator.instance.frequency.value = oscillator.freq;
-				$('#freqDisplay').text(oscillator.freq);
+				self.freq = $targ.val();
+				self.inst.frequency.value = self.freq;
+				$('#freqDisplay').text(self.freq);
 			});
 			$('#wType').on('change', function(e) {
 				//console.log('Playing',e);
 				var $targ = $(e.currentTarget);
-				oscillator.wType = $targ.val();
-				oscillator.instance.type = oscillator.wType;
+				self.wType = $targ.val();
+				self.inst.type = self.wType;
 			});
 			$('#playPause').on('click', function(e) {
 				//console.log('Playing',e);
 				var $targ = $(e.currentTarget);
 				if(!$targ.hasClass('playing')) {
 					$targ.addClass('playing');
-					audioContext.osc.start();
+					self.$body.trigger({
+						type: 'player.playing',
+						e: e
+					});
+					if (!self.started) {
+						audioContext.osc.start();
+						self.started = true;
+					}
+					self.connectOsc();
 				} else {
-					audioContext.osc.stop();
+					$targ.removeClass('playing');
+					self.$body.trigger({
+						type: 'player.pause',
+						e: e
+					});
+					self.disconnectOsc();
 				}
 			});
 		},
