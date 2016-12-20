@@ -53,6 +53,8 @@ define(['jquery', 'audioContext', 'text!mods/waveform/waveform_tmpl.html'], func
 				}
 				this.context.source.connect(this.wfAnalyser);
 				//this.wfAnalyser.connect(this.context.destination);
+				//this.getFFTInfo();
+
 				if (!this.context.outputConnected) {
 					this.wfAnalyser.connect(this.context.destination);
 					this.context.outputConnected = true;
@@ -68,11 +70,29 @@ define(['jquery', 'audioContext', 'text!mods/waveform/waveform_tmpl.html'], func
 
 		},
 
+		round: function(number, precision) {
+			var factor = Math.pow(10, precision);
+			var tempNumber = number * factor;
+			var roundedTempNumber = Math.round(tempNumber);
+			return roundedTempNumber / factor;
+		},
+
+		// getFFTInfo: function() {
+		// 	var self = this;
+		// 	var binSize = self.context.sampleRate / self.wfAnalyser.frequencyBinCount;
+		// 	var binDur = (1 / self.context.sampleRate) * self.wfAnalyser.frequencyBinCount;
+		// 	console.log('Freq bandwidth: ', binSize);
+		// 	console.log('Freq Dur: ', self.round(binDur,4));
+		// 	$('#tH').text(self.round(binDur,4) + 's');
+		// 	$('#tM').text( (self.round(binDur,4)/2)  + 's');
+		// },
+
 		setListeners : function() {
 			var self = this;
 
 			this.$body.on('player.playing', function(e) {
 				console.log('play-ing');
+				//self.getFFTInfo();
 				self.doWfd = true;
 				self.waveformId = requestAnimationFrame( self.drawWaveform );
 			});
@@ -82,14 +102,14 @@ define(['jquery', 'audioContext', 'text!mods/waveform/waveform_tmpl.html'], func
 				self.doWfd = false;
 			});
 
-			$('#stroke').on('change', function(e) {
+			$('#stroke').on('input change', function(e) {
 				var $targ = $(e.currentTarget),
 					value = $targ.val();
 				self.$waveform.attr('stroke-width', value);
 				$('#sizeVal').text(value);
 			});
 
-			$('#brightness').on('change', function(e) {
+			$('#brightness').on('input change', function(e) {
 				var $targ = $(e.currentTarget),
 					value = $targ.val();
 				self.$waveform.attr('stroke', 'rgba(133, 255, 235,' + value + ')');
@@ -102,10 +122,11 @@ define(['jquery', 'audioContext', 'text!mods/waveform/waveform_tmpl.html'], func
 					self.wfAnalyser.fftSize = value;
 					self.wfBufferLength = self.wfAnalyser.frequencyBinCount;
 					self.ByteTimeDomainArray = new Uint8Array(self.wfBufferLength);
+					//self.getFFTInfo();
 				//$('#waveform-path').attr('stroke', 'rgba(133, 255, 235,' + value + ')');
 			});
 
-			$('#smoothingWave').on('change', function(e) {
+			$('#smoothingWave').on('input change', function(e) {
 				var $targ = $(e.currentTarget),
 					value = $targ.val();
 					self.wfAnalyser.smoothingTimeConstant = value;

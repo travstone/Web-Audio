@@ -80,7 +80,7 @@ define(['jquery', 'audioContext', 'text!mods/rta/rta_tmpl.html'], function( $, a
 				self.doBgd = false;
 			});
 
-			$('#maxDb').on('change', function(e) {
+			$('#maxDb').on('input change', function(e) {
 				//console.log('canplay',e);
 				var $targ = $(e.currentTarget),
 					val = $targ.val();
@@ -88,7 +88,7 @@ define(['jquery', 'audioContext', 'text!mods/rta/rta_tmpl.html'], function( $, a
 				$('#maxDbVal').text(val);
 			});
 
-			$('#minDb').on('change', function(e) {
+			$('#minDb').on('input change', function(e) {
 				//console.log('canplay',e);
 				var $targ = $(e.currentTarget),
 					val = $targ.val();

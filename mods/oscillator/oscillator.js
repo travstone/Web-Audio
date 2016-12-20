@@ -49,13 +49,20 @@ define(['jquery', 'audioContext', 'text!mods/oscillator/oscillator_tmpl.html'], 
 
 		setListeners : function() {
 			var self = this;
-			$('#freq').on('change', function(e) {
+			$('#freq').on('input change', function(e) {
 				//console.log('Playing',e);
 				var $targ = $(e.currentTarget);
 				self.freq = $targ.val();
 				self.inst.frequency.value = self.freq;
-				$('#freqDisplay').text(self.freq);
+				$('#freqDisplay').val(self.freq);
 			});
+			$('#freqDisplay').on('input change', function(e) {
+				var $targ = $(e.currentTarget);
+				self.freq = $targ.val();
+				self.inst.frequency.value = self.freq;
+				$('#freq').val(self.freq);
+			});
+
 			$('#wType').on('change', function(e) {
 				//console.log('Playing',e);
 				var $targ = $(e.currentTarget);

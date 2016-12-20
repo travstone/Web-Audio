@@ -3,24 +3,24 @@
 	color: rgba(255,255,255,0.5);
 	position: absolute;
 	top: 6px;
-	left: 10px;
+	left: 5px;
 	text-transform: uppercase;
-	font-size: 10px;
+	font-size: 9px;
 }
 .label-right {
 	color: rgba(255,255,255,0.5);
 	position: absolute;
-	bottom: 6px;
-	left: 10px;
+	bottom: 21px;
+	left: 5px;
 	text-transform: uppercase;
-	font-size: 10px;
+	font-size: 9px;
 	color: rgba(255,255,255,0.5);
 }
 .peaks-svg {
 	height: 256px;
 	width: 100%;
 	background-color: #052d27;
-	box-shadow: inset 0px 0px 13px #000;
+	box-shadow: inset 0px 0px 6px 6px #000;
 }
 .peak-path {
 	stroke: rgba(120, 249, 224, 0.8);
@@ -30,4 +30,22 @@
 }
 #playHead {
 	stroke: rgba(255,0,0,0.8);
+}
+.h-meter-peak {
+    position: relative;
+    height: 16px;
+    background-color: #000;
+}
+.pm {
+    color: #a5a5a5;
+    font-size: 8px;
+    position: absolute;
+}
+.pm-start {
+	top: 2;
+	left: 2;
+}
+.pm-end {
+	top: 2;
+	right: 2;
 }

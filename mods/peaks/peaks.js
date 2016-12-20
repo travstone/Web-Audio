@@ -12,6 +12,7 @@ define(['jquery', 'audioContext', 'text!mods/peaks/peaks_tmpl.html'], function( 
 
 		plotSize: 12000,
 		peaks: {'left': [], 'right': []},
+		duration: null,
 
 		getPeaks: function(bufferData) {
 			var bufferLength = bufferData.length,
@@ -113,10 +114,20 @@ define(['jquery', 'audioContext', 'text!mods/peaks/peaks_tmpl.html'], function( 
 					self.peaks.left = self.getPeaks(bufferData.getChannelData(0));
 					self.peaks.right = self.getPeaks(bufferData.getChannelData(1));
 					self.drawWaveformSVG();
+					self.setHmeter();
 				});
 			};
 			xhr.send();
 
+		},
+
+		setHmeter: function() {
+			var self = this,
+				minRaw = self.duration / 60,
+				min = Math.floor(minRaw),
+				sec = Math.floor( ((minRaw % 1) * 60) );
+			console.log(min, sec);
+			$('#trackDuration').text(min + ':' + sec);
 		},
 
 		setListeners: function() {
@@ -129,15 +140,18 @@ define(['jquery', 'audioContext', 'text!mods/peaks/peaks_tmpl.html'], function( 
 				requestAnimationFrame( function() {
 					self.moveTheNeedle(data.e);
 				});
-			})
+			});
+
+			this.$body.on('player.durationchange', function(e) {
+				console.log('player durationchange...');
+				console.log( e.e.currentTarget.duration );
+				self.duration = e.e.currentTarget.duration;
+				self.setHmeter();
+			});
 		},
 
 		//setHandlers: function() {
 			//var self = this;
-
-			// this.$body.on('player.durationchange', function(e) {
-			// 	console.log('player durationchange...');
-			// })
 
 			// this.$body.on('player.loadedmetadata', function(e) {
 			// 	console.log('player loadedmetadata...');

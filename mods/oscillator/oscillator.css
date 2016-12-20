@@ -1,3 +1,8 @@
+.osc-container #freq + .control-readout {
+    width: 60px;
+}
+
+
 /*
 body {
 
