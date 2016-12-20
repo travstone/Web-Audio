@@ -30,6 +30,7 @@ body {
   color: #151515;
   padding: 0 0 6px 0;
   font-size: 11px;
+  text-shadow: 1px 1px rgba(255,255,255,0.4);
 }
 .component-body {
   position: relative;
