@@ -19,7 +19,7 @@ body {
   padding: 12px;
   /*box-shadow: inset 0 0 14px #fff;*/
   border: 1px solid #000;
-  border-radius: 12px;
+  border-radius: 2px;
   margin: 12px 0;
   clear: both;
   overflow: auto;
@@ -38,9 +38,11 @@ body {
 }
 .component-controls {
   background-color: #565656;
+  background-image: linear-gradient(#565656, #424141);
   overflow: auto;
   font-size: 11px;
   padding: 6px;
+  border-top: 2px solid #6f6f6f;
 }
 
 /* https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/  */
@@ -69,9 +71,10 @@ input[type=range]::-webkit-slider-thumb {
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
   border: 1px solid #000000;
     height: 28px;
-    width: 8px;
+    width: 14px;
   border-radius: 3px;
   background: #bdbdbd;
+      background-image: linear-gradient(#bdbdbd, #424141);
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -13px;
@@ -94,9 +97,10 @@ input[type=range]::-moz-range-thumb {
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
   border: 1px solid #000000;
     height: 28px;
-    width: 8px;
+    width: 14px;
   border-radius: 3px;
   background: #bdbdbd;
+      background-image: linear-gradient(#bdbdbd, #424141);
   cursor: pointer;
 }
 input[type=range]::-ms-track {
@@ -142,11 +146,12 @@ input[type=range]:focus::-ms-fill-upper {
   display: block;
   float: left;
     margin-right: 12px;
-    border: 1px solid #000;
-    border-radius: 6px;
+    border: 1px solid #1d1d1d;
+    border-radius: 3px;
     /*padding: 6px;*/
     min-height:60px;
     background-color: #313131;
+    box-shadow: inset 0px 0px 17px 2px #171717;
 }
 .control-label {
     display: block;
@@ -158,6 +163,7 @@ input[type=range]:focus::-ms-fill-upper {
     padding: 6px;
         border-top-left-radius: 6px;
     border-top-right-radius: 6px;
+    box-shadow: inset 0px 0px 17px 2px #171717;
 }
 .control-widget {
   font-size: 16px;
@@ -167,10 +173,13 @@ input[type=range]:focus::-ms-fill-upper {
 }
 select.control-widget {
       background-color: #13383a;
-    color: #13dae4;
+    color: rgb(106, 248, 255);
     padding:1px;
     border-color: #212121;
-    box-shadow: inset 0 0 7px 0 rgba(19,218,228,0.5);
+    box-shadow: inset 0 0 8px 3px rgba(106, 248, 255,0.15);
+    text-shadow: 0 0 9px rgb(106, 248, 255);
+    font-family: monospace;
+        border-radius: 2px;
 }
 .control-readout {
     display: inline-block;
@@ -182,11 +191,13 @@ select.control-widget {
     margin: 6px;
     margin-top: 0;
     font-size: 14px;
+    font-family: monospace;
     background-color: #13383a;
-    color: #13dae4;
-    border-radius: 4px;
-    min-width: 34px;
-    box-shadow: inset 0 0 7px 0 rgba(19,218,228,0.5);
+    color: rgb(106, 248, 255);
+    border-radius: 2px;
+    min-width: 40px;
+    box-shadow: inset 0 0 8px 3px rgba(106, 248, 255,0.15);
+    text-shadow: 0 0 9px rgb(106, 248, 255);
 }
 .component-controls .control button {
     margin: 0 6px 6px;

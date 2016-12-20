@@ -26,16 +26,6 @@
 
 		<div class="component-controls graph-controls">
 			<div class="control">
-				<label class="control-label" for="maxDb">Max dB</label>
-				<input class="control-widget" type="range" min="-30" max="0" step="1" id="maxDb" name="maxDb" value="-15" />
-				<span class="control-readout" id="maxDbVal">-15</span>
-			</div>
-			<div class="control">
-				<label class="control-label" for="minDb">Min dB</label>
-				<input class="control-widget" type="range" min="-120" max="-30" step="1" id="minDb" name="minDb" value="-80" />
-				<span class="control-readout" id="minDbVal">-80</span>
-			</div>
-			<div class="control">
 				<label class="control-label" for="fftSize">FFT Size</label>
 				<select class="control-widget" id="fftSize" name="fftSize">
 					<option value="64">64</option>
@@ -45,7 +35,16 @@
 					<option value="1024">1024</option>
 					<option value="2048">2048</option>
 				</select>
-				
+			</div>
+			<div class="control">
+				<label class="control-label" for="maxDb">Max dB</label>
+				<input class="control-widget" type="range" min="-30" max="0" step="1" id="maxDb" name="maxDb" value="-15" />
+				<span class="control-readout" id="maxDbVal">-15</span>
+			</div>
+			<div class="control">
+				<label class="control-label" for="minDb">Min dB</label>
+				<input class="control-widget" type="range" min="-120" max="-30" step="1" id="minDb" name="minDb" value="-80" />
+				<span class="control-readout" id="minDbVal">-80</span>
 			</div>
 		</div>
 
