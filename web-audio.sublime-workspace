@@ -519,6 +519,14 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "mods/waveform/waveform.js",
+			"settings":
+			{
+				"buffer_size": 4859,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -580,10 +588,17 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/Trav/Documents/GitHub/Web-Audio"
+		"/C/Users/Trav/Documents/GitHub/Web-Audio",
+		"/C/Users/Trav/Documents/GitHub/Web-Audio/js",
+		"/C/Users/Trav/Documents/GitHub/Web-Audio/mods",
+		"/C/Users/Trav/Documents/GitHub/Web-Audio/mods/audioContext",
+		"/C/Users/Trav/Documents/GitHub/Web-Audio/mods/waveform"
 	],
 	"file_history":
 	[
+		"/C/wamp64/alias/webaudio.conf",
+		"/C/wamp64/bin/apache/apache2.4.27/conf/extra/httpd-vhosts.conf",
+		"/C/Users/Trav/Documents/GitHub/Web-Audio/.gitignore",
 		"/C/Users/Trav/WEBS/home/pachamam/public_html/contact/index.php",
 		"/C/Users/Trav/WEBS/home/pachamam/public_html/index.php",
 		"/C/Users/Trav/WEBS/home/pachamam/public_html/app/google-sheets.php",
@@ -634,7 +649,6 @@
 		"/C/Users/Trav/WEBS/home/pachamam/public_html/calendar/google-calendar.php",
 		"/C/Users/Trav/WEBS/home/pachamam/public_html/calendar/google-calendar-parser.php",
 		"/C/wamp64/bin/apache/apache2.4.27/conf/httpd.conf",
-		"/C/wamp64/bin/apache/apache2.4.27/conf/extra/httpd-vhosts.conf",
 		"/C/Users/Trav/Desktop/wamp_bu/httpd-vhosts.conf",
 		"/C/wamp64/logs/apache_error.log",
 		"/C/wamp64/alias/ecalc.conf",
@@ -709,9 +723,7 @@
 		"/C/Users/Trav/WEBS/home/pachamam/public_html/content/left-callouts/reservations-callout.html",
 		"/C/Users/Trav/WEBS/home/travston/pub_test/new_test/css/main.css",
 		"/C/Users/Trav/WEBS/home/travston/pub_test/new_test/css/wp.css",
-		"/C/Users/Trav/WEBS/home/travston/pub_test/new_test/index.php",
-		"/C/Users/Trav/WEBS/home/travston/pub_test/new_test/inc/php/head-include.php",
-		"/C/Users/Trav/WEBS/home/travston/pub_test/new_test/contact/header-questions.php"
+		"/C/Users/Trav/WEBS/home/travston/pub_test/new_test/index.php"
 	],
 	"find":
 	{
@@ -729,6 +741,8 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"C:/Users/Trav/Documents/GitHub/unfOWLow-d/public_html/",
+			"unfOWLow-d/"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -746,8 +760,38 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "mods/waveform/waveform.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4859,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1057,
+								1074
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 360.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
