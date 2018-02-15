@@ -3,26 +3,52 @@
 	<h4 class="component-header">Oscillator</h4>
 	<div class="component-body component-controls">
 
-		<div class="control">
-			<label class="control-label" for="freq">Frequency (Hz)</label>
-			<input class="control-widget" id="freq" name="freq" type="range" min="20" max="22050" step="1" value="440">
-			<input class="control-readout" id="freqDisplay" value="440">
+		<div class="osc-instance" data-instance="osc1">
+			<div class="control">
+				<label class="control-label" for="osc1Freq">Frequency (Hz)</label>
+				<input class="control-widget control-freq-slider" id="osc1Freq" name="osc1Freq" type="range" min="20" max="22050" step="1" value="440">
+				<input class="control-readout control-freq-display" type="number" min="20" max="22050" step="1" id="freqDisplay" value="440">
+			</div>
+
+			<div class="control">
+				<label class="control-label" for="osc1wType">Wave Type</label>
+				<select class="control-widget control-wavetype" id="osc1wType" name="osc1wType">
+					<option value="square">Square</option>
+					<option value="sine">Sine</option>
+					<option value="triangle">Triangle</option>
+					<option value="sawtooth">Sawtooth</option>
+				</select>
+			</div>
+
+			<div class="control">
+				<label class="control-label" for="osc1playPause">Control</label>
+				<button class="control-play" id="playPause">Play/Pause</button>
+			</div>
 		</div>
 
-		<div class="control">
-			<label class="control-label" for="wType">Wave Type</label>
-			<select class="control-widget" id="wType" name="wType">
-				<option value="square">Square</option>
-				<option value="sine">Sine</option>
-				<option value="triangle">Triangle</option>
-				<option value="sawtooth">Sawtooth</option>
-			</select>
+		<div class="osc-instance" data-instance="osc2">
+			<div class="control">
+				<label class="control-label" for="osc2Freq">Frequency (Hz)</label>
+				<input class="control-widget control-freq-slider" id="osc2Freq" name="osc2Freq" type="range" min="20" max="22050" step="1" value="440">
+				<input class="control-readout control-freq-display" type="number" min="20" max="22050" step="1" id="freqDisplay" value="440">
+			</div>
+
+			<div class="control">
+				<label class="control-label" for="osc2wType">Wave Type</label>
+				<select class="control-widget control-wavetype" id="osc2wType" name="osc2wType">
+					<option value="square">Square</option>
+					<option value="sine">Sine</option>
+					<option value="triangle">Triangle</option>
+					<option value="sawtooth">Sawtooth</option>
+				</select>
+			</div>
+
+			<div class="control">
+				<label class="control-label" for="osc2playPause">Control</label>
+				<button class="control-play" id="playPause">Play/Pause</button>
+			</div>
 		</div>
 
-		<div class="control">
-			<label class="control-label" for="wType">Control</label>
-			<button id="playPause">Play/Pause</button>
-		</div>
 
 	</div>
 </div>
