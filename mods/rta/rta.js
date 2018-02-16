@@ -58,10 +58,11 @@ define(['jquery', 'audioContext', 'text!mods/rta/rta_tmpl.html'], function( $, a
 					this.context.outputConnected = true;
 				}
 			} else {
-				// audioContext.osc1.connect(this.grAnalyser);
+				audioContext.osc1.connect(this.grAnalyser);
 				// audioContext.osc2.connect(this.grAnalyser);
 				console.log(audioContext);
-				audioContext.destination.connect(this.grAnalyser);
+				//audioContext.destination.connect(this.grAnalyser);
+				//this.grAnalyser.connect(audioContext.destination);
 
 				this.grAnalyser.getByteFrequencyData(this.ByteFrequencyArray);
 				this.grAnalyser.getFloatFrequencyData(this.FloatFrequencyArray);

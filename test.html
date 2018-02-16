@@ -1,23 +1,249 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Audio Test</title>
+		<link rel="stylesheet" type="text/css" href="js/libs/font-awesome/css/font-awesome.min.css">
+	</head>
+	<body>
+		<div>
+			<button class="stopped" id="startStop" type="button"><i class="fa fa-play-circle" aria-hidden="true"></i> Master Start/Stop</button>
 
-<script>
-var context = new AudioContext(); 
+			<div class="oscillator">
+					
+				<label for="osc1wType">Type</label>
+				<select class="control-widget control-wavetype" id="osc1wType" name="osc1wType">
+					<option value="square">Square</option>
+					<option value="sine" selected>Sine</option>
+					<option value="triangle">Triangle</option>
+					<option value="sawtooth">Sawtooth</option>
+				</select>
+				<label for="osc1freq">Freq</label>
+				<input class="control-widget control-freq-slider" id="osc1freq" name="osc1freq" type="range" min="20" max="20000" step="0.1" value="440"><span id="osc1freqDisplay">440</span>
+				<label for="gain1Vol">Volume</label>
+				<input class="control-widget control-vol-slider" id="gain1Vol" name="gain1Vol" type="range" min="0" max="1" step="0.01" value="0.1">
 
-oscillator1 = context.createOscillator(); // Create sound source 1
-oscillator2 = context.createOscillator(); // Create sound source 2
-gainNode2 = context.createGain(); // Create gain node 2
+			</div>
 
-oscillator1.type = "sine"; // Sine wave
-oscillator1.frequency.value = 200; // Default frequency in hertz 
-oscillator1.connect(context.destination); // Connect sound source 1 to output
-oscillator1.start(0); // Play sound source 1 instantly 
+			<div class="oscillator">
+					
+				<label for="osc2wType">Type</label>
+				<select class="control-widget control-wavetype" id="osc2wType" name="osc2wType">
+					<option value="square">Square</option>
+					<option value="sine" selected>Sine</option>
+					<option value="triangle">Triangle</option>
+					<option value="sawtooth">Sawtooth</option>
+				</select>
+				<label for="osc2freq">Freq</label>
+				<input class="control-widget control-freq-slider" id="osc2freq" name="osc2freq" type="range" min="20" max="20000" step="0.1" value="440"><span id="osc2freqDisplay">440</span>
+				<label for="gain1Vol">Volume</label>
+				<input class="control-widget control-vol-slider" id="gain2Vol" name="gain2Vol" type="range" min="0" max="1" step="0.01" value="0.1">
+
+
+			</div>
+			<div>
+				<input class="control-widget control-vol-slider" id="masterVol" name="masterVol" type="range" min="0" max="1" step="0.01" value="0.1">
+			</div>
+
+
+		</div>
+
+		<div style="width: 100%;">
+			<canvas id="oscilloscope" width="1024" height="200"></canvas>
+			<label for="gain1Vol">FFT Size</label>
+			<select class="control-widget control-wavetype" id="fftSize" name="fftSize">
+				<option>256</option>
+				<option>512</option>
+				<option>1024</option>
+				<option selected>2048</option>
+				<option>4096</option>
+			</select>
+		</div>
+
 		
-oscillator2.type = "square"; // Square wave
-oscillator2.frequency.value = 100; // Frequency in hertz 
-oscillator2.connect(gainNode2); // Connect sound source 2 to gain node 2
-gainNode2.connect(context.destination); // Connect gain node 2 to output
-gainNode2.gain.value = 0.3; // Set gain node 2 to 30 percent
-oscillator2.start(2); // Play sound source 2 after two seconds
+
+
+	<script type="text/javascript" src="js/libs/jquery/jquery-2.2.2.min.js"></script>
+
+	<style type="text/css">
+		.playing {
+			color: green;
+		}
+		.stopped {
+			color: red;
+		}
+		.control-freq-slider {
+			width: 600px;
+		}
+	</style>
+
+	<script>
+
+		var AudioContext = window.AudioContext || window.webkitAudioContext;
+		var audioCtx = new AudioContext();
+
+		var initParams = {
+			type: 'sine',
+			frequency: 440,
+			volume: 0.1
+		}
+
+		var oscillator1 = audioCtx.createOscillator();
+		var gainNode1 = audioCtx.createGain();
+		oscillator1.type = initParams.type;
+		oscillator1.frequency.setValueAtTime(initParams.frequency, audioCtx.currentTime);
+		gainNode1.gain.setValueAtTime(initParams.volume, audioCtx.currentTime);
+
+
+		var oscillator2 = audioCtx.createOscillator();
+		var gainNode2 = audioCtx.createGain();
+		oscillator2.type = initParams.type;
+		oscillator2.frequency.setValueAtTime(initParams.frequency, audioCtx.currentTime);
+		gainNode2.gain.setValueAtTime(initParams.volume, audioCtx.currentTime);
+
+		var sumGain = audioCtx.createGain();
+		sumGain.gain.setValueAtTime(1, audioCtx.currentTime);
+
+		var masterGain = audioCtx.createGain();
+		masterGain.gain.setValueAtTime(initParams.volume, audioCtx.currentTime);
+
+		var analyser = audioCtx.createAnalyser();
+		analyser.fftSize = 2048;
+		var bufferLength = analyser.frequencyBinCount;
+		var dataArray = new Uint8Array(bufferLength);
+		analyser.getByteTimeDomainData(dataArray);
+
+
+		//var finish = audioCtx.destination;
+		oscillator1.connect(gainNode1);
+		oscillator2.connect(gainNode2);
+		gainNode1.connect(sumGain);
+		gainNode2.connect(sumGain);
+		sumGain.connect(analyser);
+		analyser.connect(masterGain);
+		masterGain.connect(audioCtx.destination)
+
+		oscillator1.start();
+		oscillator2.start();
+
+		var oscillatorOn = true;
 
 
 
-</script>
+		// Get a canvas defined with ID "oscilloscope"
+		var canvas = document.getElementById("oscilloscope");
+		var canvasCtx = canvas.getContext("2d");
+
+		canvasCtx.clearRect(0, 0, 640, 100);
+
+		function draw() {
+
+		  drawVisual = requestAnimationFrame(draw);
+
+		  analyser.getByteTimeDomainData(dataArray);
+		  //console.log(canvas.width);
+		  canvasCtx.fillStyle = 'rgb(50,50,50)';
+		  canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+		  canvasCtx.lineWidth = 1;
+		  canvasCtx.strokeStyle = 'rgb(0, 255, 0)';
+
+		  canvasCtx.beginPath();
+
+		  var sliceWidth = canvas.width * 1.0 / bufferLength;
+		  var x = 0;
+
+		  for (var i = 0; i < bufferLength; i++) {
+
+		    var v = dataArray[i] / 128.0;
+		    var y = v * canvas.height / 2;
+
+		    if (i === 0) {
+		      canvasCtx.moveTo(x, y);
+		    } else {
+		      canvasCtx.lineTo(x, y);
+		    }
+
+		    x += sliceWidth;
+		  }
+
+		  canvasCtx.lineTo(canvas.width, canvas.height / 2);
+		  canvasCtx.stroke();
+		};
+
+		draw();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		$('#startStop').on('click', function() {
+			if (oscillatorOn) {
+				masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+				oscillatorOn = false;
+			} else {
+				var val = $('#masterVol').val();
+				masterGain.gain.setValueAtTime(val, audioCtx.currentTime);
+				oscillatorOn = true;
+			}
+		});
+
+
+		$('#osc1wType').on('change', function(e) {
+			oscillator1.type = $(e.currentTarget).val();
+		});
+		$('#osc1freq').on('input change', function(e) {
+			//oscillator1.type = $(e.currentTarget).val();
+			var val = $(e.currentTarget).val();
+			$('#osc1freqDisplay').text(val);
+			oscillator1.frequency.setValueAtTime(val, audioCtx.currentTime);
+		});
+		$('#gain1Vol').on('input change', function(e) {
+			//oscillator1.type = $(e.currentTarget).val();
+			gainNode1.gain.setValueAtTime($(e.currentTarget).val(), audioCtx.currentTime);
+		});
+
+
+
+		$('#osc2wType').on('change', function(e) {
+			oscillator2.type = $(e.currentTarget).val();
+		});
+		$('#osc2freq').on('input change', function(e) {
+			//oscillator1.type = $(e.currentTarget).val();
+			//oscillator2.frequency.setValueAtTime($(e.currentTarget).val(), audioCtx.currentTime);
+			var val = $(e.currentTarget).val();
+			$('#osc2freqDisplay').text(val);
+			oscillator2.frequency.setValueAtTime(val, audioCtx.currentTime);
+		});
+		$('#gain2Vol').on('input change', function(e) {
+			//oscillator1.type = $(e.currentTarget).val();
+			gainNode2.gain.setValueAtTime($(e.currentTarget).val(), audioCtx.currentTime);
+		});
+
+		$('#masterVol').on('input change', function(e) {
+			//oscillator1.type = $(e.currentTarget).val();
+			masterGain.gain.setValueAtTime($(e.currentTarget).val(), audioCtx.currentTime);
+		});
+
+		$('#fftSize').on('change', function(e) {
+			analyser.fftSize = $(e.currentTarget).val();
+
+			bufferLength = analyser.frequencyBinCount;
+			dataArray = new Uint8Array(bufferLength);
+
+		});
+
+	</script>
+	</body>
+</html>
+
+
+

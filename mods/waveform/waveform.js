@@ -62,7 +62,7 @@ define(['jquery', 'audioContext', 'text!mods/waveform/waveform_tmpl.html'], func
 			} else {
 				console.log('we have an osc...');
 				this.context.osc1.connect(this.wfAnalyser);
-				this.context.osc2.connect(this.wfAnalyser);
+				//this.context.osc2.connect(this.wfAnalyser);
 
 				this.wfAnalyser.getByteTimeDomainData(this.ByteTimeDomainArray);
 				this.doWfd = true;
