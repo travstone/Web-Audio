@@ -4,6 +4,66 @@
 		"selected_items":
 		[
 			[
+				"osc1",
+				"osc1wType"
+			],
+			[
+				"mas",
+				"masterGain"
+			],
+			[
+				"master",
+				"masterVol"
+			],
+			[
+				"con",
+				"connect"
+			],
+			[
+				"gain",
+				"gainNode2"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"osc",
+				"oscillator"
+			],
+			[
+				"str",
+				"startStop"
+			],
+			[
+				"an",
+				"analyser"
+			],
+			[
+				"audio",
+				"audioCtx"
+			],
+			[
+				"rend",
+				"renderAnalyser"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"butt",
+				"buttonPlaying"
+			],
+			[
+				"but",
+				"buttonStopped"
+			],
+			[
+				"i",
+				"i\tTag"
+			],
+			[
 				"eve",
 				"eventTonightMarkup"
 			],
@@ -454,66 +514,6 @@
 			[
 				"date",
 				"dateStringStop"
-			],
-			[
-				"remove",
-				"removeClass"
-			],
-			[
-				"item",
-				"itemHtml"
-			],
-			[
-				"ite",
-				"items"
-			],
-			[
-				"err",
-				"errorHandler"
-			],
-			[
-				"ifra",
-				"iframeRegex"
-			],
-			[
-				"l",
-				"log"
-			],
-			[
-				"items",
-				"itemsArray"
-			],
-			[
-				"number",
-				"numberCleaned"
-			],
-			[
-				"nu",
-				"numberCleaned"
-			],
-			[
-				"pos",
-				"position"
-			],
-			[
-				"vol",
-				"volts"
-			],
-			[
-				"res",
-				"results"
-			],
-			[
-				"result",
-				"result-indicator"
-			],
-			[
-				"reu",
-				"return"
-			],
-			[
-				"calc",
-				"calcObject"
 			]
 		]
 	},
@@ -523,7 +523,66 @@
 			"file": "mods/waveform/waveform.js",
 			"settings":
 			{
-				"buffer_size": 4859,
+				"buffer_size": 4910,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "mods/audioContext/audioContext.js",
+			"settings":
+			{
+				"buffer_size": 548,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "mods/rta/rta.js",
+			"settings":
+			{
+				"buffer_size": 4260,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/main-oscillator.js",
+			"settings":
+			{
+				"buffer_size": 183,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "mods/oscillator/oscillator.js",
+			"settings":
+			{
+				"buffer_size": 3446,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "test.html",
+			"settings":
+			{
+				"buffer_size": 7056,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "mods/oscillator/oscillator_tmpl.html",
+			"settings":
+			{
+				"buffer_size": 2133,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "oscillator.html",
+			"settings":
+			{
+				"buffer_size": 911,
 				"line_ending": "Windows"
 			}
 		}
@@ -589,13 +648,23 @@
 	"expanded_folders":
 	[
 		"/C/Users/Trav/Documents/GitHub/Web-Audio",
+		"/C/Users/Trav/Documents/GitHub/Web-Audio/css",
 		"/C/Users/Trav/Documents/GitHub/Web-Audio/js",
+		"/C/Users/Trav/Documents/GitHub/Web-Audio/js/libs",
+		"/C/Users/Trav/Documents/GitHub/Web-Audio/js/libs/font-awesome",
+		"/C/Users/Trav/Documents/GitHub/Web-Audio/js/libs/font-awesome/css",
+		"/C/Users/Trav/Documents/GitHub/Web-Audio/js/libs/jquery",
 		"/C/Users/Trav/Documents/GitHub/Web-Audio/mods",
 		"/C/Users/Trav/Documents/GitHub/Web-Audio/mods/audioContext",
+		"/C/Users/Trav/Documents/GitHub/Web-Audio/mods/oscillator",
+		"/C/Users/Trav/Documents/GitHub/Web-Audio/mods/rta",
 		"/C/Users/Trav/Documents/GitHub/Web-Audio/mods/waveform"
 	],
 	"file_history":
 	[
+		"/C/Users/Trav/Documents/GitHub/Web-Audio/test.html",
+		"/C/Users/Trav/Documents/GitHub/Web-Audio/mods/audioContext/audioContext.js",
+		"/C/Users/Trav/Documents/GitHub/Web-Audio/mods/rta/rta.js",
 		"/C/wamp64/alias/webaudio.conf",
 		"/C/wamp64/bin/apache/apache2.4.27/conf/extra/httpd-vhosts.conf",
 		"/C/Users/Trav/Documents/GitHub/Web-Audio/.gitignore",
@@ -720,14 +789,11 @@
 		"/C/cygwin64/home/Trav/list.sh",
 		"/C/Users/Trav/Dropbox/debug.log",
 		"/C/Users/Trav/WEBS/home/pachamam/public_html/404.php",
-		"/C/Users/Trav/WEBS/home/pachamam/public_html/content/left-callouts/reservations-callout.html",
-		"/C/Users/Trav/WEBS/home/travston/pub_test/new_test/css/main.css",
-		"/C/Users/Trav/WEBS/home/travston/pub_test/new_test/css/wp.css",
-		"/C/Users/Trav/WEBS/home/travston/pub_test/new_test/index.php"
+		"/C/Users/Trav/WEBS/home/pachamam/public_html/content/left-callouts/reservations-callout.html"
 	],
 	"find":
 	{
-		"height": 23.0
+		"height": 40.0
 	},
 	"find_in_files":
 	{
@@ -741,6 +807,69 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"var ",
+			"osc2wType",
+			"masterGain",
+			"osc1freq",
+			"gain1Vol",
+			"freq",
+			"gain2Vol",
+			"1",
+			"gainNodeB",
+			"oscillator.",
+			"oscillator",
+			"osc2Freq",
+			"gainNode",
+			"context",
+			"this",
+			"_self",
+			"bargraphId",
+			"_self",
+			"this",
+			"masterVol",
+			"display.myC",
+			"myC",
+			"wfBufferLength",
+			"var ",
+			"masterGain",
+			":",
+			"context",
+			"gainNode2",
+			"gainNode1",
+			"masterGain",
+			"oscillator2",
+			"oscillator1",
+			",",
+			"context",
+			"context.createGain()",
+			"context.createOscillator()",
+			" =",
+			";",
+			"var ",
+			" =",
+			"analyser.frequencyBinCount",
+			"getFrequencyBinCount()",
+			"BARGRAPHAMPLITUDE",
+			"this.DEBUGCANVASSIZE",
+			"_debugCanvasContext",
+			"analyser",
+			"wfAnalyser",
+			"targ",
+			"$targ.toggleClass('playing');",
+			"<button",
+			"0.1",
+			"masterVol",
+			"audioContext",
+			"masterVol",
+			"this.",
+			"started",
+			"inst1",
+			"osc1",
+			"inst",
+			"\"wType\"",
+			"\"freq\"",
+			"this",
+			"$waveform",
 			"C:/Users/Trav/Documents/GitHub/unfOWLow-d/public_html/",
 			"unfOWLow-d/"
 		],
@@ -760,7 +889,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -769,15 +898,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4859,
+						"buffer_size": 4910,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1057,
-								1074
+								1780,
+								1737
 							]
 						],
 						"settings":
@@ -786,10 +915,215 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 360.0,
+						"translation.y": 547.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "mods/audioContext/audioContext.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 548,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "mods/rta/rta.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4260,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3690,
+								3690
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1438.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "js/main-oscillator.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 183,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "mods/oscillator/oscillator.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3446,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								838,
+								847
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 45.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "test.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7056,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6929,
+								6929
+							],
+							[
+								6975,
+								6975
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1778.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "mods/oscillator/oscillator_tmpl.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2133,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1276,
+								1411
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "oscillator.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 911,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
