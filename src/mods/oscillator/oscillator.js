@@ -1,36 +1,35 @@
 
 "use strict";
-import template from './oscillator_tmpl.html';
-import '../../../css/styles.css';
-import './oscillator.css';
-const Oscillator = {
+import template from './Oscillator_tmpl.html';
+import './Oscillator.css';
 
-    el: null,
-    //body: null,
-
-    inst: null,
-    freq: 440,
-    wType: 'square',
-    started: false,
-    playing: false,
-
-    _ATC: null,
+const OscProto = {
 
     init: function(initArgs) {
-        console.log('osc init...');
-        // if(window._audioToolsContext) {
-        //     this._ATC = window._audioToolsContext;
-        // }
         if(initArgs.context) {
-            this._ATC = initArgs.context;
+            this._AudioToolsContext = initArgs.context;
         } else {
             console.error('Audio Context not valid or not provided');
             return false;
         }
-        this.el = document.getElementById('osc');
-        this.el.appendChild(this.buildTemplate())
+        if(initArgs.sel) {
+            this.el = document.querySelector(initArgs.sel);
+        } else{
+            this.el = document.querySelector('#osc');
+        }
+        if(this.el) {
+            this.el.appendChild(this.buildTemplate())
+        } else {
+            console.error('Could not locate the target selector');
+            return false;
+        }
+        this.freqInput = this.el.querySelector('.freq'),
+        this.freqDisplay = this.el.querySelector('.freqDisplay'),
+        this.wTypeSelect = this.el.querySelector('.wType'),
+        this.playPause = this.el.querySelector('.playPause')
+        this.playPause.innerHTML = 'Play'
         this.setListeners();
-        this.createOsc();
+        this.setupOscillator();
     },
 
     buildTemplate: function() {
@@ -39,82 +38,95 @@ const Oscillator = {
         return div.firstChild
     },
 
-    createOsc: function() {
-        //this.inst = null;
-        this.inst = this._ATC.createOscillator();
-        this.inst.type = this.wType;
-        this.inst.frequency.value = this.freq; // value in hertz
-        this.inst.gainNode = this._ATC.createGain();
-        this.inst.gainNode.gain.value = 0.1;
-        this.inst.connect(this.inst.gainNode);
-        //this.inst.gainNode.connect(this._ATC.destination);
-        if (!this._ATC.osc) {
-            console.log('Define the source!');
-            this._ATC.osc = this.inst;//this._ATC.createMediaElementSource(waveform.$player[0]);
-        }
+    setupOscillator: function() {
+        this._OscillatorInstance = this._AudioToolsContext.Ctxt.createOscillator()
+        this._AudioToolsContext.Ctxt.inst.push(this)
+        this.setWaveType(this.wType)
+        this.setFreq(this.freq)
+        this._OscillatorInstance.gainNode = this._AudioToolsContext.Ctxt.createGain()
+        this._OscillatorInstance.gainNode.gain.value = 0.9
+        this._OscillatorInstance.connect(this._OscillatorInstance.gainNode)
+        // Note that we start this immediately, but it only becomes audible 
+        // When we connect the gain node to the destination; see _connect()
+        this._OscillatorInstance.start()
         
     },
 
-    connectOsc: function() {
-        this.inst.gainNode.connect(this._ATC.destination);
-    },
-    disconnectOsc: function() {
-        this.inst.gainNode.disconnect(this._ATC.destination);
+    setFreq: function(newFreq) {
+        this._OscillatorInstance.frequency.value = this.freq = this.freqInput.value = this.freqDisplay.value = newFreq;
     },
 
-    onFreqChange: function(e, fi, fd) {
-        console.log('onFreqChange...', e.target.value);
-        this.inst.frequency.value = fi.value = fd.value = e.target.value;
+    setWaveType: function(newWaveType) {
+        this._OscillatorInstance.type = this.wType = this.wTypeSelect.value = newWaveType; 
+    },
+
+    _connect: function() {
+        if(!this.playing) {
+            this._OscillatorInstance.gainNode.connect(this._AudioToolsContext.Ctxt.masterGain);
+        }
+        this.playing = true;
+        this.playPause.innerHTML = 'Pause'
+    },
+    _disconnect: function() {
+        if(this.playing) {
+            this._OscillatorInstance.gainNode.disconnect(this._AudioToolsContext.Ctxt.masterGain);
+        }
+        this.playing = false;
+        this.playPause.innerHTML = 'Play'
     },
 
     setListeners : function() {
-        let self = this,
-            freqInput = document.querySelector('#freq'),
-            freqDisplay = document.querySelector('#freqDisplay'),
-            wType = document.querySelector('#wType'),
-            playPause = document.querySelector('#playPause');
+        let self = this;
 
-        freqInput.addEventListener('change', function(e) {
-            console.log('Freq Input changed... ');
-            self.onFreqChange(e, freqInput, freqDisplay);
+        this.freqInput.addEventListener('change', function(e) {
+            self.setFreq(e.target.value);
         });
 
-        freqInput.addEventListener('input', function(e) {
-            console.log('Freq Input input... ');
-            self.onFreqChange(e, freqInput, freqDisplay);
+        this.freqInput.addEventListener('input', function(e) {
+            self.setFreq(e.target.value);
         });
 
-        freqDisplay.addEventListener('change', function(e) {
-            console.log('Freq Display change... ');
-            self.onFreqChange(e, freqInput, freqDisplay);
+        this.freqDisplay.addEventListener('change', function(e) {
+            self.setFreq(e.target.value);
         });
 
-        freqDisplay.addEventListener('input', function(e) {
-            console.log('Freq Display input... ');
-            self.onFreqChange(e, freqInput, freqDisplay);
+        this.freqDisplay.addEventListener('input', function(e) {
+            self.setFreq(e.target.value);
         });
 
-        wType.addEventListener('change', function(e) {
-            console.log('Wave Type change... ');
-            self.inst.type = self.wType = e.target.value;
+        this.wTypeSelect.addEventListener('change', function(e) {
+            self.setWaveType(e.target.value);
         });
 
-        playPause.addEventListener('click', function(e) {
-            console.log('playPause... ');
+        this.playPause.addEventListener('click', function(e) {
             if(self.playing) {
-                self.disconnectOsc();
-                self.playing = false;
+                self._disconnect();
             } else {
-                if (!self.started) {
-                    self._ATC.osc.start();
-                    self.started = true;
-                }
-                self.connectOsc();
-                self.playing = true;
+                self._connect();
             }
         });
 
     },
 };
+
+Oscillator.prototype = OscProto;
+
+function Oscillator(newArgs) {
+    this.el = null
+    this.freqInput = null
+    this.freqDisplay = null
+    this.wType = null
+    this.playPause = null
+    this._OscillatorInstance = null
+    this.freq = 440
+    this.wType = 'square'
+    this.started = false
+    this.playing = false
+    this._AudioToolsContext = null
+    if(newArgs) {
+        this.init(newArgs)
+    }
+    return this
+}
 
 export default Oscillator

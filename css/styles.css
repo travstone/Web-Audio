@@ -17,6 +17,7 @@ body {
   background-color: #afafaf;
   background-image: linear-gradient(#afafaf, #616161);
   padding: 12px;
+    width: 1032px;
   /*box-shadow: inset 0 0 14px #fff;*/
   border: 1px solid #000;
   border-radius: 2px;
@@ -44,6 +45,10 @@ body {
   font-size: 11px;
   padding: 6px;
   border-top: 2px solid #6f6f6f;
+}
+
+.playPause {
+  min-width: 6em;
 }
 
 /* https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/  */
