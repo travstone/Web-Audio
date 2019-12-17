@@ -1,0 +1,55 @@
+
+.waveform-window {
+	position: relative;
+    background-color: #052d27;
+    box-shadow: inset 0px 0px 6px 6px #000;
+    height: 256px;
+    width: 100%;
+}
+#zeroLine {
+	stroke: rgb(250, 251, 61);
+}
+.wfd {
+	position: absolute;
+    color: #ccc;
+    font-size: 8px;
+}
+.wfd0 {
+	top: 2;
+	right: 2;
+}
+.wfd12 {
+	top: 64;
+	right: 2;
+}
+.wfdInf {
+	top:128;
+	right: 2;
+}
+.wfd-12 {
+	top: 192;
+	right: 2;
+}
+.wfd-0 {
+	top: 246;
+	right: 2;
+}
+
+.h-meter-wave {
+    position: relative;
+    height: 16px;
+    background-color: #000;
+}
+.wfm {
+    color: #a5a5a5;
+    font-size: 8px;
+    position: absolute;
+}
+.wfm-low {
+    left: 2;
+    top: 2;
+}
+.wfm-hi {
+    right: 2;
+    top: 2;
+}

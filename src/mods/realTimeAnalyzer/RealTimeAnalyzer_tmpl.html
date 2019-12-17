@@ -1,0 +1,55 @@
+
+<div class="component rta-container">
+	<h4 class="component-header">RTA</h4>
+	
+	<div class="component-body">
+		<div class="rta-window">
+				<!-- viewbox="0 0 1024 256" -->
+			<!-- <svg id="rta" preserveAspectRatio="none"> -->
+<!-- 				<path stroke-width="0.5" fill="" stroke="rgba(255, 255, 255, 0.2)" id="neg30" d="M0, 84 L1024, 84"></path>
+				<path stroke-width="0.5" fill="" stroke="rgba(255, 255, 255, 0.2)" id="neg60" d="M0, 168 L1024, 168"></path> -->
+			<!-- </svg> -->
+			<canvas class="canvas" id="tutorial" width="1024" height="256"></canvas>
+			<span class="gfd gfd0">0dB</span>
+			<span class="gfd gfd30">-45dB</span>
+			<span class="gfd gfd60">-90dB</span>
+			<span class="gfd gfdInf">-180dB</span>
+		</div>
+
+		<div class="h-meter">
+			<span class="gfm gfm-low">20Hz</span>
+			<span class="gfm gfm-1-25k">1.25kHz</span>
+			<span class="gfm gfm-2-5k">2.5kHz</span>
+			<span class="gfm gfm-low-mid">5kHz</span>
+			<span class="gfm gfm-mid">10kHz</span>
+			<span class="gfm gfm-hi-mid">15kHz</span>
+			<span class="gfm gfm-hi">20kHz</span>
+		</div>
+
+		<div class="component-controls graph-controls">
+			<div class="control">
+				<label class="control-label" for="fftSize">FFT Size</label>
+				<select class="control-widget fftSizeCtrl" id="fftSize" name="fftSize">
+					<option value="64">64</option>
+					<option value="128">128</option>
+					<option value="256">256</option>
+					<option value="512">512</option>
+					<option value="1024">1024</option>
+					<option value="2048">2048</option>
+				</select>
+			</div>
+			<div class="control">
+				<label class="control-label" for="maxDb">Max dB</label>
+				<input class="control-widget maxDbCtrl" type="range" min="-30" max="0" step="1" id="maxDb" name="maxDb" />
+				<span class="control-readout maxDbReadout" id="maxDbVal"></span>
+			</div>
+			<div class="control">
+				<label class="control-label" for="minDb">Min dB</label>
+				<input class="control-widget minDbCtrl" type="range" min="-120" max="-30" step="1" id="minDb" name="minDb" />
+				<span class="control-readout minDbReadout" id="minDbVal"></span>
+			</div>
+		</div>
+
+	</div>
+
+</div>

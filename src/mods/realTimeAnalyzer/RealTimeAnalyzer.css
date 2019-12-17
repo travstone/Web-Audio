@@ -1,0 +1,91 @@
+.rta-container .component-body {
+    /* width: 1028px; */
+}
+.rta-window {
+    background-color: #052d27;
+    box-shadow: inset 0px 0px 6px 6px #000;
+    height: 256px;
+    padding: 2px;
+    /* width: 1024px; */
+    position: relative;
+}
+#rta {
+    height: 100%;
+    width: 100%;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.gfd {
+    color: #ccc;
+    font-size: 8px;
+    position: absolute;
+}
+
+
+.gfd0 {
+    right: 2;
+    top: 2;
+}
+.gfd30 {
+    right: 2;
+    top: 34%;
+}
+.gfd60 {
+    right: 2;
+    top: 67%;
+}
+.gfdInf {
+    right: 2;
+    bottom: 2;
+}
+
+
+
+
+.h-meter {
+    position: relative;
+    height: 16px;
+    background-color: #000;
+}
+
+.gfm {
+    color: #a5a5a5;
+    font-size: 8px;
+    position: absolute;
+}
+.gfm-low {
+    left: 2;
+    top: 2;
+}
+.gfm-1-25k {
+    right: 91.3%;
+    /* left: 6.25%; */
+    top: 2;
+}
+.gfm-2-5k {
+    right: 86%;
+    /* left: 12.5%; */
+    top: 2;
+}
+.gfm-low-mid {
+    right: 75.4%;
+    /* left: 25%; */
+    top: 2;
+}
+.gfm-mid {
+    right: 52.5%;
+    /* left: 50%; */
+    top: 2;
+}
+.gfm-hi-mid {
+    right: 29.8%;
+    /* left: 75%; */
+    top: 2;
+}
+.gfm-hi {
+    right: 7.3%;
+    top: 2;
+}
+
+
